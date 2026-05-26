@@ -38,7 +38,7 @@ async def check_scope(message: str, history: list[dict]) -> tuple[bool, str]:
             {"role": "system", "content": _SYSTEM},
             {"role": "user", "content": message},
         ],
-        max_tokens=5,
+        max_completion_tokens=5,
         temperature=0,
     )
     verdict = resp.choices[0].message.content.strip().upper()
