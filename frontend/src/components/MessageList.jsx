@@ -10,8 +10,8 @@ export default function MessageList({ messages }) {
             {msg.role === "user" ? "You" : "PartSelect"}
           </span>
 
-          {/* Text bubble — hidden once a card is ready */}
-          {(msg.streaming || !msg.ui_block) && (msg.content || msg.streaming) && (
+          {/* Text bubble — hidden once cards are ready */}
+          {(msg.streaming || !msg.ui_blocks?.length) && (msg.content || msg.streaming) && (
             <div className="message__text">
               {msg.streaming && !msg.content
                 ? <span className="message__thinking">Thinking<span className="message__dots" /></span>
@@ -21,11 +21,11 @@ export default function MessageList({ messages }) {
             </div>
           )}
 
-          {/* Typed UI block — rendered only after streaming completes */}
-          {!msg.streaming && msg.ui_block && (() => {
-            const Card = CARD_REGISTRY[msg.ui_block.type];
-            return Card ? <Card data={msg.ui_block.data} /> : null;
-          })()}
+          {/* UI cards — all rendered after streaming completes */}
+          {!msg.streaming && msg.ui_blocks?.map((block, j) => {
+            const Card = CARD_REGISTRY[block.type];
+            return Card ? <Card key={j} data={block.data} /> : null;
+          })}
         </div>
       ))}
     </div>

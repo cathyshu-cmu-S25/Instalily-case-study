@@ -15,7 +15,7 @@ export async function sendMessage(message, history = []) {
  * @param {string} message
  * @param {Array} history
  * @param {(delta: string) => void} onDelta  — called for each text chunk
- * @param {(ui_block: object|null) => void} onDone — called once when stream ends
+ * @param {(ui_blocks: object[]) => void} onDone — called once when stream ends
  */
 export async function streamMessage(message, history = [], onDelta, onDone) {
   const res = await fetch(`${BASE_URL}/chat/stream`, {
@@ -42,7 +42,7 @@ export async function streamMessage(message, history = [], onDelta, onDone) {
       try {
         const event = JSON.parse(line.slice(6));
         if (event.type === "text_delta") onDelta(event.content);
-        else if (event.type === "done") onDone(event.ui_block);
+        else if (event.type === "done") onDone(event.ui_blocks ?? []);
       } catch {
         // skip malformed event
       }

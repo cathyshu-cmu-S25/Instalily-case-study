@@ -82,7 +82,7 @@ async def run(message: str, history: list[dict]) -> dict:
     """Non-streaming agent loop. Returns {response, ui_block}."""
     messages = _build_messages(message, history)
     tools = [t.to_openai_schema() for t in TOOL_REGISTRY.values()]
-    last_ui_block = None
+    ui_blocks: list[dict] = []
 
     for _ in range(8):
         resp = await client.chat.completions.create(
@@ -95,15 +95,15 @@ async def run(message: str, history: list[dict]) -> dict:
         messages.append(_assistant_turn(msg))
 
         if not msg.tool_calls:
-            return {"response": msg.content or "", "ui_block": last_ui_block}
+            return {"response": msg.content or "", "ui_blocks": ui_blocks}
 
         for tc in msg.tool_calls:
             result_text, ui_block = await _execute_tool(tc)
             if ui_block:
-                last_ui_block = ui_block
+                ui_blocks.append(ui_block)
             messages.append({"role": "tool", "tool_call_id": tc.id, "content": result_text})
 
-    return {"response": "I'm having trouble completing that request. Please try again.", "ui_block": last_ui_block}
+    return {"response": "I'm having trouble completing that request. Please try again.", "ui_blocks": ui_blocks}
 
 
 async def run_stream(message: str, history: list[dict]) -> AsyncGenerator[dict, None]:
@@ -114,7 +114,7 @@ async def run_stream(message: str, history: list[dict]) -> AsyncGenerator[dict, 
     """
     messages = _build_messages(message, history)
     tools = [t.to_openai_schema() for t in TOOL_REGISTRY.values()]
-    last_ui_block = None
+    ui_blocks: list[dict] = []
 
     for _ in range(7):
         resp = await client.chat.completions.create(
@@ -133,11 +133,11 @@ async def run_stream(message: str, history: list[dict]) -> AsyncGenerator[dict, 
         for tc in msg.tool_calls:
             result_text, ui_block = await _execute_tool(tc)
             if ui_block:
-                last_ui_block = ui_block
+                ui_blocks.append(ui_block)
             messages.append({"role": "tool", "tool_call_id": tc.id, "content": result_text})
     else:
         yield {"type": "text_delta", "content": "I'm having trouble completing that request. Please try again."}
-        yield {"type": "done", "ui_block": None}
+        yield {"type": "done", "ui_blocks": []}
         return
 
     stream_kwargs: dict = {"model": ORCHESTRATOR_MODEL, "messages": messages, "stream": True}
@@ -151,4 +151,4 @@ async def run_stream(message: str, history: list[dict]) -> AsyncGenerator[dict, 
         if delta:
             yield {"type": "text_delta", "content": delta}
 
-    yield {"type": "done", "ui_block": last_ui_block}
+    yield {"type": "done", "ui_blocks": ui_blocks}

@@ -13,7 +13,8 @@ const CHIPS = {
 
 function getChips(lastMsg) {
   if (!lastMsg || lastMsg.role !== "assistant" || lastMsg.streaming) return [];
-  return CHIPS[lastMsg.ui_block?.type] || [];
+  const lastBlock = lastMsg.ui_blocks?.[lastMsg.ui_blocks.length - 1];
+  return CHIPS[lastBlock?.type] || [];
 }
 
 export default function ChatWindow() {
@@ -40,7 +41,7 @@ export default function ChatWindow() {
 
     setMessages([
       ...withUser,
-      { role: "assistant", content: "", ui_block: null, streaming: true },
+      { role: "assistant", content: "", ui_blocks: [], streaming: true },
     ]);
 
     let accumulated = "";
@@ -56,19 +57,19 @@ export default function ChatWindow() {
             next[next.length - 1] = {
               role: "assistant",
               content: accumulated,
-              ui_block: null,
+              ui_blocks: [],
               streaming: true,
             };
             return next;
           });
         },
-        (ui_block) => {
+        (ui_blocks) => {
           setMessages((prev) => {
             const next = [...prev];
             next[next.length - 1] = {
               role: "assistant",
               content: accumulated,
-              ui_block,
+              ui_blocks,
               streaming: false,
             };
             return next;

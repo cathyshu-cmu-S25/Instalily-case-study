@@ -50,7 +50,7 @@ class ChatRequest(BaseModel):
 
 class ChatResponse(BaseModel):
     response: str
-    ui_block: dict | None = None
+    ui_blocks: list[dict] = []
 
 
 @app.get("/health")
@@ -76,7 +76,7 @@ async def chat_stream(req: ChatRequest):
     if not allowed:
         async def refused_stream():
             yield f"data: {json.dumps({'type': 'text_delta', 'content': refusal})}\n\n"
-            yield f"data: {json.dumps({'type': 'done', 'ui_block': None})}\n\n"
+            yield f"data: {json.dumps({'type': 'done', 'ui_blocks': []})}\n\n"
         return StreamingResponse(refused_stream(), media_type="text/event-stream",
                                  headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"})
 
