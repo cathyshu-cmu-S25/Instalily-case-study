@@ -1,3 +1,4 @@
+from data.provider import get_provider
 from tools.base import Tool, ToolResult
 from tools.registry import register
 
@@ -8,7 +9,7 @@ class LookupPart(Tool):
     description = (
         "Look up a refrigerator or dishwasher part by its PS number "
         "(e.g. PS11752778) or manufacturer number (e.g. WPW10321304). "
-        "Returns part details including name, price, stock status, and compatible brands."
+        "Returns part details: name, price, stock, compatible brands, and install info."
     )
     parameters = {
         "type": "object",
@@ -23,23 +24,17 @@ class LookupPart(Tool):
     }
 
     async def execute(self, part_id: str) -> ToolResult:
-        # Phase 1 stub — replaced with real DataProvider in Phase 2
+        part = get_provider().get_part(part_id)
+        if not part:
+            return ToolResult(
+                text=f"No part found for '{part_id}'. Please double-check the number and try again."
+            )
+        stock = "In Stock" if part["in_stock"] else "Out of Stock"
         return ToolResult(
             text=(
-                f"Part {part_id}: Refrigerator Door Shelf Bin — $47.40, In Stock. "
-                "Compatible with Whirlpool, KitchenAid, Maytag, Amana, Kenmore. "
-                "Rating: 5.0/5 (29 reviews). Easy install, ~15 min, no tools needed."
+                f"{part['name']} ({part['ps_number']}) — ${part['price']:.2f}, {stock}. "
+                f"Compatible brands: {', '.join(part['brands'])}. "
+                f"Rating: {part['rating']}/5 ({part['review_count']} reviews)."
             ),
-            ui_block={
-                "type": "product_card",
-                "data": {
-                    "ps_number": part_id,
-                    "name": "Refrigerator Door Shelf Bin (stub)",
-                    "price": 47.40,
-                    "in_stock": True,
-                    "brands": ["Whirlpool", "KitchenAid", "Maytag", "Amana", "Kenmore"],
-                    "rating": 5.0,
-                    "review_count": 29,
-                },
-            },
+            ui_block={"type": "product_card", "data": part},
         )

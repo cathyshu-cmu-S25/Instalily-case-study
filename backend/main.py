@@ -3,14 +3,24 @@ load_dotenv()
 
 import tools  # noqa: F401 — imports __init__.py, which self-registers all tools
 
+from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
 from guardrail import check_scope
 from orchestrator import run
+from rag.embed import initialize_store
 
-app = FastAPI(title="PartSelect Chat Agent")
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Embed all repair guides into the in-memory vector store at startup
+    await initialize_store()
+    yield
+
+
+app = FastAPI(title="PartSelect Chat Agent", lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,

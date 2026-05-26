@@ -1,0 +1,122 @@
+[
+  {
+    "id": "rg-fridge-ice-maker-whirlpool",
+    "appliance": "Refrigerator",
+    "symptom": "ice maker not working",
+    "brands": ["Whirlpool", "Maytag", "KitchenAid", "Amana"],
+    "diagnosis_steps": [
+      "Check that the ice maker is turned on — look for an on/off switch or wire bail arm on the side of the ice maker; the arm should be in the down position.",
+      "Confirm the freezer temperature is at or below 0°F (-18°C). Warm freezer temps are the #1 cause of no ice.",
+      "Inspect the water supply line behind the refrigerator for kinks or pinches; straighten any you find.",
+      "Replace the water filter if it is older than 6 months — a clogged filter restricts water flow to the ice maker.",
+      "Test the water inlet valve for continuity with a multimeter; replace it if it reads open (no continuity).",
+      "If all the above pass, replace the ice maker assembly itself."
+    ],
+    "likely_parts": ["water filter", "water inlet valve", "ice maker assembly"]
+  },
+  {
+    "id": "rg-fridge-not-cooling",
+    "appliance": "Refrigerator",
+    "symptom": "refrigerator not cooling",
+    "brands": ["Whirlpool", "Maytag", "KitchenAid", "Amana", "Kenmore"],
+    "diagnosis_steps": [
+      "Check that the refrigerator is plugged in and the circuit breaker is not tripped.",
+      "Verify the temperature controls are set correctly — fresh food should be around 37°F and freezer at 0°F.",
+      "Listen for the condenser fan (at the back or bottom) — if you don't hear it, the fan motor may be faulty.",
+      "Inspect the door gaskets for tears or gaps; a poor seal lets warm air in continuously.",
+      "Check the evaporator fan in the freezer compartment — if it's not running, the compressor start relay may be faulty.",
+      "Test the compressor start relay by shaking it — a rattling noise means it has failed.",
+      "If none of the above resolves the issue, the compressor itself may need professional service."
+    ],
+    "likely_parts": ["evaporator fan motor", "compressor start relay", "door gasket"]
+  },
+  {
+    "id": "rg-fridge-leaking",
+    "appliance": "Refrigerator",
+    "symptom": "refrigerator leaking water",
+    "brands": ["Whirlpool", "Maytag", "KitchenAid", "Amana"],
+    "diagnosis_steps": [
+      "Locate the source of the leak — check if it is from the water dispenser, the ice maker, or from under the refrigerator.",
+      "If leaking at the dispenser or ice maker: inspect the water supply line and inlet valve connections for loose fittings.",
+      "Check the drain pan under the refrigerator — if cracked or overflowing, it will drip on the floor.",
+      "Inspect the defrost drain tube in the freezer — a clogged drain will cause water to pool and leak.",
+      "If the water supply line is cracked or has a loose compression fitting, replace or tighten it.",
+      "Check the water inlet valve for cracks or a faulty seal."
+    ],
+    "likely_parts": ["water inlet valve", "water filter"]
+  },
+  {
+    "id": "rg-fridge-noisy",
+    "appliance": "Refrigerator",
+    "symptom": "refrigerator making noise",
+    "brands": ["Whirlpool", "Maytag", "KitchenAid", "Amana", "Kenmore"],
+    "diagnosis_steps": [
+      "Identify the type of noise: clicking usually points to the compressor start relay; buzzing to the ice maker or inlet valve; rattling to a loose drain pan or condenser fan; squealing to the evaporator fan motor.",
+      "For clicking: shake the compressor start relay — if it rattles, replace it.",
+      "For buzzing near the ice maker: the water inlet valve solenoid may be failing; test with a multimeter.",
+      "For rattling: check that the drain pan is seated properly and the condenser coils are not vibrating against anything.",
+      "For squealing or grinding: the evaporator fan motor bearings may be worn — replace the motor."
+    ],
+    "likely_parts": ["compressor start relay", "evaporator fan motor", "water inlet valve"]
+  },
+  {
+    "id": "rg-dw-not-cleaning",
+    "appliance": "Dishwasher",
+    "symptom": "dishwasher not cleaning dishes",
+    "brands": ["Whirlpool", "Maytag", "KitchenAid", "Amana", "Kenmore"],
+    "diagnosis_steps": [
+      "Check that the spray arms spin freely — remove them and look for clogged holes; use a toothpick to clear any blockages.",
+      "Inspect the spray arm for cracks — a cracked arm loses pressure and cannot clean effectively.",
+      "Clean the filter assembly at the bottom of the dishwasher; a clogged filter dramatically reduces cleaning.",
+      "Verify water temperature is at least 120°F — run hot water at the sink before starting the cycle.",
+      "Check the detergent dispenser opens properly during the wash cycle.",
+      "If the motor makes noise but water pressure is weak, the wash pump may be failing."
+    ],
+    "likely_parts": ["lower spray arm", "wash pump & motor assembly", "detergent dispenser"]
+  },
+  {
+    "id": "rg-dw-leaking",
+    "appliance": "Dishwasher",
+    "symptom": "dishwasher leaking water",
+    "brands": ["Whirlpool", "Maytag", "KitchenAid", "Amana"],
+    "diagnosis_steps": [
+      "Identify where the leak originates — from the door, under the unit, or from connections at the back.",
+      "If leaking from the door: inspect the door gasket for tears, cracks, or sections that have come loose; replace if damaged.",
+      "Ensure the dishwasher is level — an unlevel unit can cause water to pool against the door and leak.",
+      "Check the door latch — if the door does not close completely, water will spray out.",
+      "If leaking from under the unit: inspect the pump hoses and water inlet connections for looseness.",
+      "Overfilling can also cause leaks — ensure the float switch inside the tub moves freely."
+    ],
+    "likely_parts": ["door gasket", "door latch assembly", "wash pump & motor assembly"]
+  },
+  {
+    "id": "rg-dw-not-starting",
+    "appliance": "Dishwasher",
+    "symptom": "dishwasher won't start",
+    "brands": ["Whirlpool", "Maytag", "KitchenAid", "Amana", "Kenmore"],
+    "diagnosis_steps": [
+      "Confirm the dishwasher is getting power — check the circuit breaker and ensure the unit is plugged in.",
+      "Make sure the door is fully latched — dishwashers won't run unless the door latch engages the door switch.",
+      "Try a hard reset: turn off the circuit breaker for 60 seconds, then restore power.",
+      "Check for a Control Lock or Child Lock indicator on the panel — hold the lock button for 3 seconds to disable.",
+      "If the door clicks shut but the unit still won't start, the door latch assembly or door switch may be faulty.",
+      "If the control panel is unresponsive or shows an error code, the control board may have failed."
+    ],
+    "likely_parts": ["door latch assembly", "control board"]
+  },
+  {
+    "id": "rg-dw-not-drying",
+    "appliance": "Dishwasher",
+    "symptom": "dishwasher not drying dishes",
+    "brands": ["Whirlpool", "Maytag", "KitchenAid", "Amana"],
+    "diagnosis_steps": [
+      "Ensure you are using rinse aid — it is essential for effective drying; refill the dispenser if empty.",
+      "Check that the heated dry option is selected — some cycles default to air-dry only.",
+      "Plastic items naturally retain water more than glass or ceramic; this is normal behavior.",
+      "Test the heating element for continuity with a multimeter — if it reads open, the element has failed.",
+      "Inspect the high-limit thermostat on the heating element — a blown thermostat will disable the heat.",
+      "If the element has continuity but still produces no heat, the control board may not be activating it."
+    ],
+    "likely_parts": ["heating element", "control board"]
+  }
+]

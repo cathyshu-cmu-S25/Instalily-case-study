@@ -1,0 +1,533 @@
+[
+  {
+    "ps_number": "PS11752778",
+    "manufacturer_number": "WPW10321304",
+    "name": "Refrigerator Door Shelf Bin",
+    "appliance_type": "Refrigerator",
+    "price": 47.40,
+    "in_stock": true,
+    "brands": ["Whirlpool", "KitchenAid", "Maytag", "Amana", "Kenmore"],
+    "fixes_symptoms": ["Bin broken or cracked", "Door won't close properly", "Shelf bin fell off"],
+    "compatible_models": [
+      "ED5FVGXWS05", "WRX988SIBM00", "WRS325SDHZ00", "WRF535SWHZ00",
+      "WRT518SZFM00", "WRS571CIHZ00", "WRF767SDHZ00", "WSR57R18DM00",
+      "WRS325FDAM04", "WRS588FIHZ00"
+    ],
+    "replaces_parts": ["AP6019471", "W10321304", "2171046", "PS11752778"],
+    "install": {
+      "difficulty": "Easy",
+      "time": "15 min",
+      "tools": [],
+      "steps": [
+        "Open the refrigerator door fully.",
+        "Grip the old bin with both hands and pull it straight out to unsnap it from the door rails.",
+        "Align the tabs on the new bin with the door rail slots.",
+        "Press firmly until the bin snaps into place.",
+        "Test by gently tugging the bin — it should not move."
+      ]
+    },
+    "rating": 5.0,
+    "review_count": 29
+  },
+  {
+    "ps_number": "PS11748060",
+    "manufacturer_number": "W10295370A",
+    "name": "Refrigerator Water Filter",
+    "appliance_type": "Refrigerator",
+    "price": 49.95,
+    "in_stock": true,
+    "brands": ["Whirlpool", "Maytag", "Amana", "KitchenAid"],
+    "fixes_symptoms": [
+      "Ice maker not making ice", "Ice maker not working",
+      "Water tastes bad or has odor", "Slow water dispenser", "Cloudy ice"
+    ],
+    "compatible_models": [
+      "WRS325SDHZ00", "WRX988SIBM00", "WRF535SWHZ00", "WRS571CIHZ00",
+      "WRS588FIHZ00", "WRF767SDHZ00", "WRT518SZFM00", "ED5FVGXWS05"
+    ],
+    "replaces_parts": ["W10295370", "W10276924", "W10569319"],
+    "install": {
+      "difficulty": "Easy",
+      "time": "5 min",
+      "tools": [],
+      "steps": [
+        "Locate the water filter housing in the upper-right corner of the refrigerator interior.",
+        "Turn the old filter counterclockwise about a quarter-turn and pull it straight out.",
+        "Remove the cap from the new filter.",
+        "Insert the new filter and turn clockwise until it locks.",
+        "Run 4 gallons of water through the dispenser to flush the filter before use."
+      ]
+    },
+    "rating": 4.8,
+    "review_count": 312
+  },
+  {
+    "ps_number": "PS11757617",
+    "manufacturer_number": "W10882923",
+    "name": "Refrigerator Ice Maker Assembly",
+    "appliance_type": "Refrigerator",
+    "price": 89.95,
+    "in_stock": true,
+    "brands": ["Whirlpool", "Maytag", "KitchenAid"],
+    "fixes_symptoms": [
+      "Ice maker not making ice", "Ice maker not working",
+      "No ice production", "Ice maker stopped working"
+    ],
+    "compatible_models": [
+      "WRX988SIBM00", "WRS325SDHZ00", "WRF535SWHZ00",
+      "WRS571CIHZ00", "WRF767SDHZ00"
+    ],
+    "replaces_parts": ["W10190965", "W10122505", "W10193840"],
+    "install": {
+      "difficulty": "Moderate",
+      "time": "30 min",
+      "tools": ["Phillips screwdriver", "Flat-head screwdriver"],
+      "steps": [
+        "Unplug the refrigerator and turn off the water supply.",
+        "Remove the ice bin from the freezer.",
+        "Disconnect the wire harness from the old ice maker — press the tab and pull.",
+        "Remove the two mounting screws holding the ice maker to the freezer wall.",
+        "Slide the old ice maker out and set aside.",
+        "Slide the new ice maker into position and secure with the mounting screws.",
+        "Reconnect the wire harness until it clicks.",
+        "Replace the ice bin, turn on the water supply, and plug in the refrigerator.",
+        "Allow 24 hours for the first ice batch to be produced."
+      ]
+    },
+    "rating": 4.6,
+    "review_count": 87
+  },
+  {
+    "ps_number": "PS11756691",
+    "manufacturer_number": "W10498990",
+    "name": "Refrigerator Water Inlet Valve",
+    "appliance_type": "Refrigerator",
+    "price": 64.87,
+    "in_stock": true,
+    "brands": ["Whirlpool", "Maytag", "Amana", "KitchenAid", "Kenmore"],
+    "fixes_symptoms": [
+      "Ice maker not making ice", "Ice maker not working",
+      "No water from dispenser", "Refrigerator leaking water", "Humming noise"
+    ],
+    "compatible_models": [
+      "WRX988SIBM00", "WRS325SDHZ00", "WRF535SWHZ00",
+      "ED5FVGXWS05", "WRS571CIHZ00", "WRS588FIHZ00"
+    ],
+    "replaces_parts": ["W10408179", "W10294316", "W10315579"],
+    "install": {
+      "difficulty": "Moderate",
+      "time": "45 min",
+      "tools": ["Phillips screwdriver", "Adjustable pliers", "Bucket"],
+      "steps": [
+        "Unplug the refrigerator and shut off the water supply valve behind it.",
+        "Pull the refrigerator away from the wall to access the rear panel.",
+        "Remove the lower rear access panel (typically 2–4 screws).",
+        "Place a towel or bucket under the inlet valve to catch residual water.",
+        "Disconnect the water supply line from the old valve using pliers.",
+        "Unplug the electrical connectors from the valve.",
+        "Remove the mounting screws and take out the old valve.",
+        "Install the new valve in reverse order — secure screws, reconnect electrical connectors, reattach water line.",
+        "Turn on the water supply and check for leaks before pushing the refrigerator back."
+      ]
+    },
+    "rating": 4.5,
+    "review_count": 143
+  },
+  {
+    "ps_number": "PS11739151",
+    "manufacturer_number": "WPW10443738",
+    "name": "Refrigerator Fresh Food Door Gasket",
+    "appliance_type": "Refrigerator",
+    "price": 55.43,
+    "in_stock": true,
+    "brands": ["Whirlpool", "Maytag", "Amana"],
+    "fixes_symptoms": [
+      "Refrigerator not cooling efficiently", "Door not sealing properly",
+      "Condensation on door", "Higher energy bills"
+    ],
+    "compatible_models": [
+      "WRS325SDHZ00", "WRF535SWHZ00", "WRT518SZFM00", "WRS571CIHZ00"
+    ],
+    "replaces_parts": ["W10290748", "W10190376"],
+    "install": {
+      "difficulty": "Moderate",
+      "time": "20 min",
+      "tools": ["Hair dryer (optional, to soften new gasket)"],
+      "steps": [
+        "Warm the new gasket in a bucket of hot water for a few minutes to make it pliable.",
+        "Open the refrigerator door and locate the gasket — it is pressed into a channel around the door perimeter.",
+        "Starting from a corner, pull the old gasket out of the channel.",
+        "Work around the door removing the full old gasket.",
+        "Press the new gasket into the channel starting from the top corners.",
+        "Work around all four sides, ensuring the gasket is seated evenly.",
+        "Close the door and check the seal by placing a dollar bill in the door — it should resist being pulled out."
+      ]
+    },
+    "rating": 4.4,
+    "review_count": 56
+  },
+  {
+    "ps_number": "PS12584610",
+    "manufacturer_number": "WPW10189703",
+    "name": "Refrigerator Evaporator Fan Motor",
+    "appliance_type": "Refrigerator",
+    "price": 58.72,
+    "in_stock": true,
+    "brands": ["Whirlpool", "Maytag", "KitchenAid", "Amana"],
+    "fixes_symptoms": [
+      "Refrigerator not cooling", "Freezer not cold enough",
+      "Loud or unusual noise from freezer", "Fan not running"
+    ],
+    "compatible_models": [
+      "WRX988SIBM00", "WRS325SDHZ00", "WRF535SWHZ00", "WRS571CIHZ00"
+    ],
+    "replaces_parts": ["W10128551", "W10154981", "W10315622"],
+    "install": {
+      "difficulty": "Advanced",
+      "time": "60 min",
+      "tools": ["Phillips screwdriver", "Nut driver", "Putty knife"],
+      "steps": [
+        "Unplug the refrigerator.",
+        "Empty the freezer and remove all shelves.",
+        "Remove the rear freezer panel (usually held by 4–6 screws).",
+        "Defrost any ice buildup around the fan motor with a hair dryer on low heat.",
+        "Disconnect the fan motor wire harness.",
+        "Remove the fan blade by pulling straight off the motor shaft.",
+        "Remove the mounting screws and take out the old motor.",
+        "Install the new motor and secure the mounting screws.",
+        "Reattach the fan blade and reconnect the wire harness.",
+        "Reinstall the rear panel, shelves, and plug in the refrigerator."
+      ]
+    },
+    "rating": 4.3,
+    "review_count": 41
+  },
+  {
+    "ps_number": "PS11752779",
+    "manufacturer_number": "W10323882",
+    "name": "Refrigerator Crisper Drawer",
+    "appliance_type": "Refrigerator",
+    "price": 38.25,
+    "in_stock": true,
+    "brands": ["Whirlpool", "KitchenAid", "Maytag", "Amana"],
+    "fixes_symptoms": ["Broken crisper drawer", "Cracked drawer", "Drawer won't slide"],
+    "compatible_models": [
+      "WRS325SDHZ00", "WRF535SWHZ00", "WRT518SZFM00",
+      "WRS571CIHZ00", "WRF767SDHZ00"
+    ],
+    "replaces_parts": ["W10170190", "WPW10286779"],
+    "install": {
+      "difficulty": "Easy",
+      "time": "5 min",
+      "tools": [],
+      "steps": [
+        "Pull the old drawer out until it stops, then tilt the front down and lift it free.",
+        "Slide the new drawer onto the rails until it is fully seated.",
+        "Test by opening and closing the drawer several times."
+      ]
+    },
+    "rating": 4.7,
+    "review_count": 63
+  },
+  {
+    "ps_number": "PS12345678",
+    "manufacturer_number": "W10613606",
+    "name": "Refrigerator Compressor Start Relay",
+    "appliance_type": "Refrigerator",
+    "price": 19.43,
+    "in_stock": true,
+    "brands": ["Whirlpool", "Maytag", "KitchenAid", "Amana", "Kenmore"],
+    "fixes_symptoms": [
+      "Refrigerator not cooling", "Refrigerator not running",
+      "Compressor won't start", "Clicking noise every few minutes"
+    ],
+    "compatible_models": [
+      "WRS325SDHZ00", "WRF535SWHZ00", "WRT518SZFM00",
+      "ED5FVGXWS05", "WRS588FIHZ00"
+    ],
+    "replaces_parts": ["W10519756", "8201786", "PS11745975"],
+    "install": {
+      "difficulty": "Easy",
+      "time": "15 min",
+      "tools": ["Phillips screwdriver"],
+      "steps": [
+        "Unplug the refrigerator and pull it away from the wall.",
+        "Remove the lower rear access panel.",
+        "Locate the compressor — the start relay plugs into the side of it.",
+        "Pull the old relay straight off the compressor terminals.",
+        "Shake the old relay — a rattling sound confirms it is faulty.",
+        "Plug the new relay onto the compressor terminals until it clicks.",
+        "Reinstall the access panel and plug in the refrigerator."
+      ]
+    },
+    "rating": 4.9,
+    "review_count": 228
+  },
+  {
+    "ps_number": "PS11752397",
+    "manufacturer_number": "WPW10130699",
+    "name": "Dishwasher Door Latch Assembly",
+    "appliance_type": "Dishwasher",
+    "price": 42.15,
+    "in_stock": true,
+    "brands": ["Whirlpool", "Maytag", "KitchenAid", "Amana"],
+    "fixes_symptoms": [
+      "Dishwasher door won't latch", "Door won't stay closed",
+      "Dishwasher won't start", "Door pops open during cycle"
+    ],
+    "compatible_models": [
+      "WDT780SAEM1", "WDT750SAHZ0", "WDTA50SAHZ0", "WDF520PADM7",
+      "WDT970SAHV0", "WDT780SAEM0", "WDT730PAHZ0"
+    ],
+    "replaces_parts": ["W10130698", "W10250160", "8519401"],
+    "install": {
+      "difficulty": "Moderate",
+      "time": "20 min",
+      "tools": ["T20 Torx screwdriver", "Phillips screwdriver"],
+      "steps": [
+        "Disconnect power to the dishwasher at the circuit breaker.",
+        "Open the dishwasher door and remove the inner door panel screws along the perimeter.",
+        "Carefully separate the inner panel from the outer door.",
+        "Disconnect the door latch wire harness.",
+        "Remove the two screws securing the latch and slide it out.",
+        "Install the new latch, secure screws, and reconnect the wire harness.",
+        "Reassemble the door panels and restore power.",
+        "Test the latch by closing the door — it should click and hold firmly."
+      ]
+    },
+    "rating": 4.5,
+    "review_count": 74
+  },
+  {
+    "ps_number": "PS11739124",
+    "manufacturer_number": "W10082871",
+    "name": "Dishwasher Lower Spray Arm",
+    "appliance_type": "Dishwasher",
+    "price": 26.85,
+    "in_stock": true,
+    "brands": ["Whirlpool", "Maytag", "KitchenAid", "Amana", "Kenmore"],
+    "fixes_symptoms": [
+      "Dishes not clean", "Spray arm cracked or broken",
+      "Spray arm not spinning", "Poor wash performance"
+    ],
+    "compatible_models": [
+      "WDT780SAEM1", "WDT750SAHZ0", "WDTA50SAHZ0", "WDF520PADM7",
+      "WDT970SAHV0", "WDT780SAEM0", "WDT730PAHZ0", "WDT775SAHZ0"
+    ],
+    "replaces_parts": ["W10164981", "W10380375", "8268378"],
+    "install": {
+      "difficulty": "Easy",
+      "time": "10 min",
+      "tools": [],
+      "steps": [
+        "Remove the lower rack from the dishwasher.",
+        "Twist the spray arm counterclockwise to unlock it from the center hub.",
+        "Lift off the old spray arm.",
+        "Snap the new spray arm onto the center hub and turn clockwise to lock.",
+        "Spin the arm by hand to verify it rotates freely.",
+        "Replace the lower rack."
+      ]
+    },
+    "rating": 4.8,
+    "review_count": 96
+  },
+  {
+    "ps_number": "PS11752399",
+    "manufacturer_number": "W10542314",
+    "name": "Dishwasher Door Gasket",
+    "appliance_type": "Dishwasher",
+    "price": 34.50,
+    "in_stock": true,
+    "brands": ["Whirlpool", "Maytag", "Amana"],
+    "fixes_symptoms": [
+      "Dishwasher leaking water", "Water on floor during cycle",
+      "Door seal worn or torn"
+    ],
+    "compatible_models": [
+      "WDT780SAEM1", "WDT750SAHZ0", "WDF520PADM7",
+      "WDT780SAEM0", "WDT730PAHZ0"
+    ],
+    "replaces_parts": ["W10300924", "8193990"],
+    "install": {
+      "difficulty": "Easy",
+      "time": "15 min",
+      "tools": [],
+      "steps": [
+        "Open the dishwasher door and locate the rubber gasket around the tub opening.",
+        "Starting at the top, pull the old gasket out of the channel — it is held by pressure only.",
+        "Clean any residue from the channel with a damp cloth.",
+        "Press the new gasket into the channel starting at the top center.",
+        "Work around all four sides ensuring the gasket sits flush.",
+        "Run a short cycle and check for leaks."
+      ]
+    },
+    "rating": 4.6,
+    "review_count": 52
+  },
+  {
+    "ps_number": "PS11757185",
+    "manufacturer_number": "W10812460",
+    "name": "Dishwasher Control Board",
+    "appliance_type": "Dishwasher",
+    "price": 189.99,
+    "in_stock": false,
+    "brands": ["Whirlpool", "Maytag", "KitchenAid"],
+    "fixes_symptoms": [
+      "Dishwasher won't start", "Buttons not responding",
+      "Display not working", "Error codes on display", "Cycle won't complete"
+    ],
+    "compatible_models": [
+      "WDT780SAEM1", "WDTA50SAHZ0", "WDT970SAHV0", "WDT780SAEM0"
+    ],
+    "replaces_parts": ["W10464978", "W10285180"],
+    "install": {
+      "difficulty": "Advanced",
+      "time": "45 min",
+      "tools": ["Phillips screwdriver", "Nut driver"],
+      "steps": [
+        "Disconnect power at the circuit breaker.",
+        "Open the door and remove the inner door panel screws.",
+        "Carefully peel back the inner panel to expose the control board.",
+        "Take a photo of all wire harness connections before disconnecting.",
+        "Disconnect each wire harness by pressing the release tab.",
+        "Remove the board mounting screws and lift out the old board.",
+        "Install the new board and secure the mounting screws.",
+        "Reconnect all wire harnesses per your photo.",
+        "Reassemble the door and restore power."
+      ]
+    },
+    "rating": 4.1,
+    "review_count": 38
+  },
+  {
+    "ps_number": "PS11756944",
+    "manufacturer_number": "W10482949",
+    "name": "Dishwasher Wash Pump & Motor Assembly",
+    "appliance_type": "Dishwasher",
+    "price": 148.22,
+    "in_stock": true,
+    "brands": ["Whirlpool", "Maytag", "KitchenAid", "Amana"],
+    "fixes_symptoms": [
+      "Dishes not getting clean", "Dishwasher making loud grinding noise",
+      "Weak water pressure", "Motor humming but not washing"
+    ],
+    "compatible_models": [
+      "WDT780SAEM1", "WDT750SAHZ0", "WDTA50SAHZ0", "WDF520PADM7"
+    ],
+    "replaces_parts": ["W10395324", "W10346171"],
+    "install": {
+      "difficulty": "Advanced",
+      "time": "90 min",
+      "tools": ["Phillips screwdriver", "Needle-nose pliers", "Towels"],
+      "steps": [
+        "Disconnect power and shut off the water supply.",
+        "Remove the lower rack and spray arm.",
+        "Unscrew and remove the filter assembly from the tub floor.",
+        "Tilt the dishwasher onto its back on towels.",
+        "From the bottom, disconnect the pump hoses and wire harness.",
+        "Remove the mounting bolts and take out the old pump assembly.",
+        "Install the new assembly in reverse order.",
+        "Restore the dishwasher to upright, reconnect water, and restore power.",
+        "Run a test cycle to confirm no leaks."
+      ]
+    },
+    "rating": 4.2,
+    "review_count": 27
+  },
+  {
+    "ps_number": "PS11739055",
+    "manufacturer_number": "WPW10199701",
+    "name": "Dishwasher Silverware Basket",
+    "appliance_type": "Dishwasher",
+    "price": 22.88,
+    "in_stock": true,
+    "brands": ["Whirlpool", "Maytag", "Amana", "KitchenAid", "Kenmore"],
+    "fixes_symptoms": ["Silverware basket broken", "Basket cracked or missing"],
+    "compatible_models": [
+      "WDT780SAEM1", "WDT750SAHZ0", "WDF520PADM7",
+      "WDT970SAHV0", "WDT780SAEM0", "WDT730PAHZ0"
+    ],
+    "replaces_parts": ["W10195417", "W10195416"],
+    "install": {
+      "difficulty": "Easy",
+      "time": "2 min",
+      "tools": [],
+      "steps": [
+        "Remove the old silverware basket from the lower rack.",
+        "Drop the new basket into the same position on the lower rack."
+      ]
+    },
+    "rating": 4.9,
+    "review_count": 184
+  },
+  {
+    "ps_number": "PS11756943",
+    "manufacturer_number": "W10518394",
+    "name": "Dishwasher Heating Element",
+    "appliance_type": "Dishwasher",
+    "price": 54.17,
+    "in_stock": true,
+    "brands": ["Whirlpool", "Maytag", "KitchenAid"],
+    "fixes_symptoms": [
+      "Dishes not drying", "Wet dishes after full cycle",
+      "No heat during drying cycle", "Plastic items still wet"
+    ],
+    "compatible_models": [
+      "WDT780SAEM1", "WDT750SAHZ0", "WDTA50SAHZ0",
+      "WDF520PADM7", "WDT780SAEM0"
+    ],
+    "replaces_parts": ["W10134009", "W10082853"],
+    "install": {
+      "difficulty": "Advanced",
+      "time": "60 min",
+      "tools": ["Phillips screwdriver", "Nut driver", "Multimeter (to test old element)"],
+      "steps": [
+        "Disconnect power at the circuit breaker.",
+        "Remove both dish racks.",
+        "The heating element runs along the tub floor — note its orientation.",
+        "Tilt the dishwasher onto its back.",
+        "From underneath, remove the nuts holding the element terminals through the tub.",
+        "From inside the tub, lift out the old element.",
+        "Feed the new element terminals through the tub holes and secure the nuts from underneath.",
+        "Restore the dishwasher to upright and reinstall the racks.",
+        "Restore power and run a drying cycle to test."
+      ]
+    },
+    "rating": 4.4,
+    "review_count": 45
+  },
+  {
+    "ps_number": "PS11756946",
+    "manufacturer_number": "W10196768",
+    "name": "Dishwasher Detergent Dispenser",
+    "appliance_type": "Dishwasher",
+    "price": 45.63,
+    "in_stock": true,
+    "brands": ["Whirlpool", "Maytag", "KitchenAid", "Amana"],
+    "fixes_symptoms": [
+      "Detergent not dispensing", "Dispenser door stuck closed",
+      "Detergent still in dispenser after cycle", "Dispenser door won't open"
+    ],
+    "compatible_models": [
+      "WDT780SAEM1", "WDT750SAHZ0", "WDTA50SAHZ0", "WDF520PADM7"
+    ],
+    "replaces_parts": ["W10224538", "W10162413"],
+    "install": {
+      "difficulty": "Moderate",
+      "time": "25 min",
+      "tools": ["Phillips screwdriver", "Flat-head screwdriver"],
+      "steps": [
+        "Disconnect power at the circuit breaker.",
+        "Open the door and remove the inner door panel.",
+        "Disconnect the dispenser wire harness.",
+        "From the inner door side, remove the mounting screws and push the dispenser out through the outer door.",
+        "Insert the new dispenser from the outside, secure mounting screws.",
+        "Reconnect the wire harness.",
+        "Reassemble the door panel and restore power.",
+        "Add detergent and run a cycle to confirm the dispenser opens correctly."
+      ]
+    },
+    "rating": 4.6,
+    "review_count": 61
+  }
+]
