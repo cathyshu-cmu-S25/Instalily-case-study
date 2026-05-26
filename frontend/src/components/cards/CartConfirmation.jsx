@@ -9,9 +9,9 @@ export default function CartConfirmation({ data }) {
       </p>
       <p className="cart-card__id">{part.ps_number}</p>
       <p className="cart-card__subtotal">Subtotal: <strong>${Number(subtotal).toFixed(2)}</strong></p>
-      <a className="cart-card__btn" href="https://www.partselect.com/cart.htm" target="_blank" rel="noreferrer">
-        Checkout →
-      </a>
+      <button className="cart-card__btn" disabled>
+        Checkout → <span className="cart-card__demo">(demo)</span>
+      </button>
     </div>
   );
 }
