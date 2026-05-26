@@ -1,3 +1,4 @@
+import ReactMarkdown from "react-markdown";
 import CARD_REGISTRY from "./cards/index";
 
 export default function MessageList({ messages }) {
@@ -11,13 +12,13 @@ export default function MessageList({ messages }) {
 
           {/* Text bubble */}
           {(msg.content || msg.streaming) && (
-            <p className="message__text">
+            <div className="message__text">
               {msg.streaming && !msg.content
                 ? <span className="message__thinking">Thinking<span className="message__dots" /></span>
-                : msg.content
+                : <ReactMarkdown>{msg.content}</ReactMarkdown>
               }
               {msg.streaming && msg.content && <span className="message__cursor" />}
-            </p>
+            </div>
           )}
 
           {/* Typed UI block — rendered only after streaming completes */}

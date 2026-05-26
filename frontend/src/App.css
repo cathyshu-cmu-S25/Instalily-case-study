@@ -1,6 +1,7 @@
 /* PartSelect brand tokens */
 :root {
-  --navy: #1a2744;
+  --navy: #337778;
+  --navy-hover: #286364;
   --yellow: #f5a623;
   --yellow-hover: #e0941a;
   --green: #1e7e34;
@@ -153,6 +154,20 @@ body {
   line-height: 1.5;
 }
 
+/* Markdown content inside bubbles */
+.message__text p { margin: 0 0 6px; }
+.message__text p:last-child { margin-bottom: 0; }
+.message__text ul, .message__text ol { margin: 4px 0 6px 18px; padding: 0; }
+.message__text li { margin-bottom: 2px; }
+.message__text strong { font-weight: 700; }
+.message__text code {
+  background: rgba(0,0,0,0.08);
+  border-radius: 3px;
+  padding: 1px 5px;
+  font-size: 0.88em;
+  font-family: monospace;
+}
+
 .message--user .message__text {
   background: var(--navy);
   color: var(--white);
@@ -243,7 +258,7 @@ body {
   transition: background 0.15s, color 0.15s;
 }
 .chip:hover {
-  background: var(--navy);
+  background: var(--navy-hover);
   color: var(--white);
 }
 
