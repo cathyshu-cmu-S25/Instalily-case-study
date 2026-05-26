@@ -1,4 +1,5 @@
 import json
+from collections.abc import AsyncGenerator
 from llm.provider import client, ORCHESTRATOR_MODEL
 from tools.registry import TOOL_REGISTRY
 from tools.base import ToolResult
@@ -18,73 +19,119 @@ Rules:
 - Be concise, friendly, and focused on solving the problem."""
 
 
-async def run(message: str, history: list[dict]) -> dict:
-    """
-    Agent loop: calls the LLM, executes tool calls, loops until the model
-    produces a plain-text reply. Returns {"response": str, "ui_block": dict | None}.
-    """
-    messages = [{"role": "system", "content": _SYSTEM}]
+def _build_messages(message: str, history: list[dict]) -> list[dict]:
+    msgs = [{"role": "system", "content": _SYSTEM}]
     for h in history:
-        messages.append({"role": h["role"], "content": h["content"]})
-    messages.append({"role": "user", "content": message})
+        msgs.append({"role": h["role"], "content": h["content"]})
+    msgs.append({"role": "user", "content": message})
+    return msgs
 
+
+def _assistant_turn(msg) -> dict:
+    turn: dict = {"role": "assistant", "content": msg.content}
+    if msg.tool_calls:
+        turn["tool_calls"] = [
+            {
+                "id": tc.id,
+                "type": "function",
+                "function": {"name": tc.function.name, "arguments": tc.function.arguments},
+            }
+            for tc in msg.tool_calls
+        ]
+    return turn
+
+
+async def _execute_tool(tc) -> tuple[str, dict | None]:
+    fn_name = tc.function.name
+    try:
+        fn_args = json.loads(tc.function.arguments)
+    except json.JSONDecodeError:
+        fn_args = {}
+    tool = TOOL_REGISTRY.get(fn_name)
+    if tool is None:
+        return f"Error: tool '{fn_name}' is not available.", None
+    result: ToolResult = await tool.execute(**fn_args)
+    return result.text, result.ui_block
+
+
+async def run(message: str, history: list[dict]) -> dict:
+    """Non-streaming agent loop. Returns {response, ui_block}."""
+    messages = _build_messages(message, history)
     tools = [t.to_openai_schema() for t in TOOL_REGISTRY.values()]
     last_ui_block = None
-    max_iterations = 8
 
-    for _ in range(max_iterations):
+    for _ in range(8):
         resp = await client.chat.completions.create(
             model=ORCHESTRATOR_MODEL,
             messages=messages,
             tools=tools or None,
             tool_choice="auto" if tools else None,
         )
-
         msg = resp.choices[0].message
-
-        # Build the assistant turn dict for the next iteration
-        assistant_turn: dict = {"role": "assistant", "content": msg.content}
-        if msg.tool_calls:
-            assistant_turn["tool_calls"] = [
-                {
-                    "id": tc.id,
-                    "type": "function",
-                    "function": {
-                        "name": tc.function.name,
-                        "arguments": tc.function.arguments,
-                    },
-                }
-                for tc in msg.tool_calls
-            ]
-        messages.append(assistant_turn)
+        messages.append(_assistant_turn(msg))
 
         if not msg.tool_calls:
             return {"response": msg.content or "", "ui_block": last_ui_block}
 
-        # Execute each tool call and append results
         for tc in msg.tool_calls:
-            fn_name = tc.function.name
-            try:
-                fn_args = json.loads(tc.function.arguments)
-            except json.JSONDecodeError:
-                fn_args = {}
+            result_text, ui_block = await _execute_tool(tc)
+            if ui_block:
+                last_ui_block = ui_block
+            messages.append({"role": "tool", "tool_call_id": tc.id, "content": result_text})
 
-            tool = TOOL_REGISTRY.get(fn_name)
-            if tool is None:
-                result_text = f"Error: tool '{fn_name}' is not available."
-            else:
-                result: ToolResult = await tool.execute(**fn_args)
-                result_text = result.text
-                if result.ui_block:
-                    last_ui_block = result.ui_block
+    return {"response": "I'm having trouble completing that request. Please try again.", "ui_block": last_ui_block}
 
-            messages.append({
-                "role": "tool",
-                "tool_call_id": tc.id,
-                "content": result_text,
-            })
 
-    return {
-        "response": "I'm having trouble completing that request. Please try again.",
-        "ui_block": last_ui_block,
+async def run_stream(message: str, history: list[dict]) -> AsyncGenerator[dict, None]:
+    """
+    Streaming agent loop. Yields:
+      {"type": "text_delta", "content": str}  — one or more times
+      {"type": "done", "ui_block": dict | None} — exactly once, at the end
+    """
+    messages = _build_messages(message, history)
+    tools = [t.to_openai_schema() for t in TOOL_REGISTRY.values()]
+    last_ui_block = None
+
+    # Tool loop (non-streaming) — runs until the model has no more tool calls
+    for _ in range(7):
+        resp = await client.chat.completions.create(
+            model=ORCHESTRATOR_MODEL,
+            messages=messages,
+            tools=tools or None,
+            tool_choice="auto" if tools else None,
+        )
+        msg = resp.choices[0].message
+
+        if not msg.tool_calls:
+            # Don't append this turn — we'll re-run it with stream=True below
+            break
+
+        messages.append(_assistant_turn(msg))
+        for tc in msg.tool_calls:
+            result_text, ui_block = await _execute_tool(tc)
+            if ui_block:
+                last_ui_block = ui_block
+            messages.append({"role": "tool", "tool_call_id": tc.id, "content": result_text})
+    else:
+        # Exhausted iterations without a clean final response
+        yield {"type": "text_delta", "content": "I'm having trouble completing that request. Please try again."}
+        yield {"type": "done", "ui_block": None}
+        return
+
+    # Streaming final call — tool_choice="none" forces a text response
+    stream_kwargs: dict = {
+        "model": ORCHESTRATOR_MODEL,
+        "messages": messages,
+        "stream": True,
     }
+    if tools:
+        stream_kwargs["tools"] = tools
+        stream_kwargs["tool_choice"] = "none"
+
+    stream = await client.chat.completions.create(**stream_kwargs)
+    async for chunk in stream:
+        delta = chunk.choices[0].delta.content
+        if delta:
+            yield {"type": "text_delta", "content": delta}
+
+    yield {"type": "done", "ui_block": last_ui_block}
