@@ -5,10 +5,10 @@ import tools  # noqa: F401 — triggers __init__.py, self-registers all tools
 
 import json
 from contextlib import asynccontextmanager
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse
-from pydantic import BaseModel
+from pydantic import BaseModel, field_validator
 
 from guardrail import check_scope
 from orchestrator import run, run_stream
@@ -39,6 +39,13 @@ class ChatMessage(BaseModel):
 class ChatRequest(BaseModel):
     message: str
     history: list[ChatMessage] = []
+
+    @field_validator("message")
+    @classmethod
+    def message_not_empty(cls, v: str) -> str:
+        if not v.strip():
+            raise ValueError("message must not be empty")
+        return v
 
 
 class ChatResponse(BaseModel):
@@ -74,8 +81,12 @@ async def chat_stream(req: ChatRequest):
                                  headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"})
 
     async def generate():
-        async for event in run_stream(req.message, history):
-            yield f"data: {json.dumps(event)}\n\n"
+        try:
+            async for event in run_stream(req.message, history):
+                yield f"data: {json.dumps(event)}\n\n"
+        except Exception as e:
+            yield f"data: {json.dumps({'type': 'text_delta', 'content': 'Something went wrong. Please try again.'})}\n\n"
+            yield f"data: {json.dumps({'type': 'done', 'ui_block': None})}\n\n"
 
     return StreamingResponse(generate(), media_type="text/event-stream",
                              headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"})

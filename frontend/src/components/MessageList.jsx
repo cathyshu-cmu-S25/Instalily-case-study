@@ -9,15 +9,18 @@ export default function MessageList({ messages }) {
             {msg.role === "user" ? "You" : "PartSelect"}
           </span>
 
-          {/* Text bubble — always shown when there's content */}
-          {msg.content && (
+          {/* Text bubble */}
+          {(msg.content || msg.streaming) && (
             <p className="message__text">
-              {msg.content}
-              {msg.streaming && <span className="message__cursor" />}
+              {msg.streaming && !msg.content
+                ? <span className="message__thinking">Thinking<span className="message__dots" /></span>
+                : msg.content
+              }
+              {msg.streaming && msg.content && <span className="message__cursor" />}
             </p>
           )}
 
-          {/* Typed UI block — rendered after streaming completes */}
+          {/* Typed UI block — rendered only after streaming completes */}
           {!msg.streaming && msg.ui_block && (() => {
             const Card = CARD_REGISTRY[msg.ui_block.type];
             return Card ? <Card data={msg.ui_block.data} /> : null;

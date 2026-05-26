@@ -2,7 +2,6 @@ import { useState, useRef, useEffect } from "react";
 import MessageList from "./MessageList";
 import { streamMessage } from "../api/client";
 
-// Static follow-up chips per ui_block type
 const CHIPS = {
   product_card: ["How do I install this?", "Is this compatible with my model?", "Add to cart"],
   compatibility_result: ["Show me the installation guide", "What other parts fit my model?"],
@@ -21,6 +20,7 @@ export default function ChatWindow() {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   const bottomRef = useRef(null);
 
   useEffect(() => {
@@ -30,18 +30,22 @@ export default function ChatWindow() {
   async function handleSend(text) {
     text = (text ?? input).trim();
     if (!text || loading) return;
+
     setInput("");
+    setError(null);
     setLoading(true);
 
-    const userMsg = { role: "user", content: text };
     const history = messages.map((m) => ({ role: m.role, content: m.content }));
+    const withUser = [...messages, { role: "user", content: text }];
 
-    // Add user message + empty streaming assistant placeholder
-    const withUser = [...messages, userMsg];
-    setMessages([...withUser, { role: "assistant", content: "", ui_block: null, streaming: true }]);
+    setMessages([
+      ...withUser,
+      { role: "assistant", content: "", ui_block: null, streaming: true },
+    ]);
+
+    let accumulated = "";
 
     try {
-      let accumulated = "";
       await streamMessage(
         text,
         history,
@@ -72,17 +76,18 @@ export default function ChatWindow() {
           setLoading(false);
         }
       );
-    } catch {
+    } catch (err) {
       setMessages((prev) => {
         const next = [...prev];
         next[next.length - 1] = {
           role: "assistant",
-          content: "Sorry, something went wrong. Please try again.",
+          content: "Sorry, I couldn't reach the server. Please check your connection and try again.",
           ui_block: null,
           streaming: false,
         };
         return next;
       });
+      setError("Connection error");
       setLoading(false);
     }
   }
@@ -95,6 +100,7 @@ export default function ChatWindow() {
   }
 
   const chips = getChips(messages[messages.length - 1]);
+  const inputTrimmed = input.trim();
 
   return (
     <div className="chat-window">
@@ -105,16 +111,15 @@ export default function ChatWindow() {
 
       <div className="chat-body">
         {messages.length === 0 && (
-          <p className="chat-empty">Ask me about refrigerator or dishwasher parts.</p>
+          <div className="chat-empty">
+            <p>Ask me about refrigerator or dishwasher parts.</p>
+            <p className="chat-empty__hint">Part lookup · Compatibility · Installation · Troubleshooting</p>
+          </div>
         )}
         <MessageList messages={messages} />
-        {loading && messages[messages.length - 1]?.streaming === false && (
-          <p className="chat-loading">Thinking…</p>
-        )}
         <div ref={bottomRef} />
       </div>
 
-      {/* Follow-up chips */}
       {chips.length > 0 && !loading && (
         <div className="chat-chips">
           {chips.map((chip) => (
@@ -124,6 +129,8 @@ export default function ChatWindow() {
           ))}
         </div>
       )}
+
+      {error && <p className="chat-error">{error}</p>}
 
       <div className="chat-input-row">
         <textarea
@@ -135,8 +142,12 @@ export default function ChatWindow() {
           onKeyDown={handleKey}
           disabled={loading}
         />
-        <button className="chat-send" onClick={() => handleSend()} disabled={loading}>
-          Send
+        <button
+          className="chat-send"
+          onClick={() => handleSend()}
+          disabled={loading || !inputTrimmed}
+        >
+          {loading ? "…" : "Send"}
         </button>
       </div>
     </div>

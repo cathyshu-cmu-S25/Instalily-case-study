@@ -13,10 +13,28 @@ You help customers with:
 - Troubleshooting symptoms and recommending likely parts
 - Order status and adding parts to the cart
 
-Rules:
-- Always use the provided tools to fetch real data. Never invent part numbers, prices, or compatibility.
-- If the customer's request is ambiguous (e.g. "this part" without context), ask a short clarifying question.
-- Be concise, friendly, and focused on solving the problem."""
+━━ Context tracking (follow strictly) ━━
+• Whenever a part number (PS number like PS11752778, or manufacturer number like WPW10321304)
+  appears anywhere in the conversation — from the user OR from a tool result — treat it as the
+  "current part". Use it when the user later says "this part", "that part", "the part", or "it".
+• Whenever an appliance model number (e.g. WDT780SAEM1, WRS325SDHZ00) appears anywhere in the
+  conversation, treat it as the "current model". Use it when the user says "my model", "this model",
+  or "my appliance".
+• For compound requests ("look up X, check if it fits my model, and add to cart"), chain all the
+  necessary tool calls in sequence — do not ask the user to break it into steps.
+
+━━ Clarify, don't guess ━━
+• If you need a part number but none has been established in the conversation, ask:
+  "Which part number are you asking about? (You can find it on the part itself or your receipt.)"
+• If you need a model number but none has been established, ask:
+  "What's your appliance model number? (Usually on a sticker inside the door or on the back.)"
+• If a symptom is too vague (e.g. "it's broken", "it doesn't work"), ask what specifically is
+  happening and on which appliance type (refrigerator or dishwasher).
+• Never fabricate part numbers, prices, model numbers, or compatibility results.
+
+━━ General ━━
+• Always use tools to retrieve real data.
+• Be concise and friendly. One clear answer beats a wall of text."""
 
 
 def _build_messages(message: str, history: list[dict]) -> list[dict]:
@@ -86,13 +104,12 @@ async def run_stream(message: str, history: list[dict]) -> AsyncGenerator[dict, 
     """
     Streaming agent loop. Yields:
       {"type": "text_delta", "content": str}  — one or more times
-      {"type": "done", "ui_block": dict | None} — exactly once, at the end
+      {"type": "done", "ui_block": dict | None} — exactly once at the end
     """
     messages = _build_messages(message, history)
     tools = [t.to_openai_schema() for t in TOOL_REGISTRY.values()]
     last_ui_block = None
 
-    # Tool loop (non-streaming) — runs until the model has no more tool calls
     for _ in range(7):
         resp = await client.chat.completions.create(
             model=ORCHESTRATOR_MODEL,
@@ -103,7 +120,7 @@ async def run_stream(message: str, history: list[dict]) -> AsyncGenerator[dict, 
         msg = resp.choices[0].message
 
         if not msg.tool_calls:
-            # Don't append this turn — we'll re-run it with stream=True below
+            # No more tool calls — re-run this final step with stream=True
             break
 
         messages.append(_assistant_turn(msg))
@@ -113,17 +130,11 @@ async def run_stream(message: str, history: list[dict]) -> AsyncGenerator[dict, 
                 last_ui_block = ui_block
             messages.append({"role": "tool", "tool_call_id": tc.id, "content": result_text})
     else:
-        # Exhausted iterations without a clean final response
         yield {"type": "text_delta", "content": "I'm having trouble completing that request. Please try again."}
         yield {"type": "done", "ui_block": None}
         return
 
-    # Streaming final call — tool_choice="none" forces a text response
-    stream_kwargs: dict = {
-        "model": ORCHESTRATOR_MODEL,
-        "messages": messages,
-        "stream": True,
-    }
+    stream_kwargs: dict = {"model": ORCHESTRATOR_MODEL, "messages": messages, "stream": True}
     if tools:
         stream_kwargs["tools"] = tools
         stream_kwargs["tool_choice"] = "none"
