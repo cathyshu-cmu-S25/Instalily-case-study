@@ -4,6 +4,7 @@ ALLOWED_APPLIANCES = ["Refrigerator", "Dishwasher"]
 
 _SYSTEM = f"""You are a scope guard for the PartSelect parts assistant.
 PartSelect only handles parts and repair for: {", ".join(ALLOWED_APPLIANCES)}.
+Common aliases: "fridge" = Refrigerator, "DW" = Dishwasher.
 
 You will receive the recent conversation history followed by the new user message.
 Use the history to understand short follow-up messages — e.g. "it's from the front door"
@@ -25,12 +26,12 @@ Output only ALLOWED or REFUSED. No explanation, no punctuation."""
 
 _REFUSAL = (
     "I specialize in refrigerator and dishwasher parts — I'm not able to help with that one. "
-    "Here's what I can help you with:\n"
-    "• Look up a part by number\n"
-    "• Check compatibility with your model\n"
-    "• Step-by-step installation guides\n"
-    "• Troubleshoot a symptom\n"
-    "• Track an order\n\n"
+    "Here's what I can help you with:\n\n"
+    "- Look up a part by number\n"
+    "- Check compatibility with your model\n"
+    "- Step-by-step installation guides\n"
+    "- Troubleshoot a symptom\n"
+    "- Track an order\n\n"
     "What can I help you with today?"
 )
 
