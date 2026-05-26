@@ -1,9 +1,14 @@
+from dotenv import load_dotenv
+load_dotenv()
+
+import tools  # noqa: F401 — imports __init__.py, which self-registers all tools
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from dotenv import load_dotenv
 
-load_dotenv()
+from guardrail import check_scope
+from orchestrator import run
 
 app = FastAPI(title="PartSelect Chat Agent")
 
@@ -37,5 +42,11 @@ async def health():
 
 @app.post("/chat", response_model=ChatResponse)
 async def chat(req: ChatRequest):
-    # Phase 0 stub: echo the message back
-    return ChatResponse(response=f"Echo: {req.message}")
+    history = [{"role": m.role, "content": m.content} for m in req.history]
+
+    allowed, refusal = await check_scope(req.message, history)
+    if not allowed:
+        return ChatResponse(response=refusal)
+
+    result = await run(req.message, history)
+    return ChatResponse(**result)
