@@ -20,7 +20,7 @@ export default function TroubleshootResult({ data }) {
 
       {recommended_parts.length > 0 && (
         <div className="troubleshoot-card__parts">
-          <p className="troubleshoot-card__parts-label">Recommended parts to check:</p>
+          <p className="troubleshoot-card__parts-label">Likely replacement parts:</p>
           <div className="troubleshoot-card__parts-list">
             {recommended_parts.map((part) => (
               <ProductCard key={part.ps_number} data={part} />

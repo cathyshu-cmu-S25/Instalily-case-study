@@ -10,8 +10,8 @@ export default function MessageList({ messages }) {
             {msg.role === "user" ? "You" : "PartSelect"}
           </span>
 
-          {/* Text bubble */}
-          {(msg.content || msg.streaming) && (
+          {/* Text bubble — hidden once a card is ready */}
+          {(msg.streaming || !msg.ui_block) && (msg.content || msg.streaming) && (
             <div className="message__text">
               {msg.streaming && !msg.content
                 ? <span className="message__thinking">Thinking<span className="message__dots" /></span>
