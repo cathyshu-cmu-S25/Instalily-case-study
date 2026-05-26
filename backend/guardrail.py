@@ -36,6 +36,10 @@ async def check_scope(message: str, history: list[dict]) -> tuple[bool, str]:
     """
     Returns (is_allowed, refusal_message).
     refusal_message is empty when is_allowed is True.
+
+    history is accepted for future context-aware scope decisions
+    (e.g. allow a bare "yes" once an in-scope conversation is established)
+    but is not passed to the model in the current implementation.
     """
     if not message.strip():
         return False, "Please type a message and I'll be happy to help!"
