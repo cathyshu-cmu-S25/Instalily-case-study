@@ -24,10 +24,10 @@ case study in clean agentic design. Key properties:
 User
  │
  ▼
-Scope Guardrail (gpt-5.4-nano)
+Scope Guardrail (gpt-4o-mini)
  │  refuses out-of-scope appliances, off-topic requests, jailbreaks
  ▼
-Orchestrator (gpt-5.4-mini, function calling)
+Orchestrator (gpt-4o-mini, function calling)
  │  runs a tool-call loop; chains multiple tools for compound requests
  ▼
 Tool Registry  ──►  lookup_part · search_parts · check_compatibility
@@ -35,9 +35,10 @@ Tool Registry  ──►  lookup_part · search_parts · check_compatibility
  │
  ▼
 Data / RAG layer
- │  catalog.json (17 parts)  ·  repair_guides.json (8 guides, text-embedding-3-small)
+ │  catalog.json (247 parts, scraped from PartSelect)
+ │  repair_guides.json (RAG corpus, text-embedding-3-small)
  ▼
-Response  →  { text, ui_block }
+Response  →  { text, ui_blocks[] }
  │
  ▼
 Frontend card registry
@@ -98,9 +99,16 @@ Open the browser, type a message, and the response streams back with a typed UI 
 | `Is PS11752778 compatible with WDT780SAEM1?` | `check_compatibility` | CompatibilityBadge ✗ |
 | `My Whirlpool fridge ice maker isn't working` | `troubleshoot` (RAG) | TroubleshootResult |
 | `Look up PS11739124, check it fits WDT780SAEM1, add to cart` | 3-tool chain | CartConfirmation |
-| `What's the status of order PS-123456?` | `get_order_status` | OrderCard |
+| `What's the status of my order?` | `get_order_status` | OrderCard |
 
-Guardrail test: `My Whirlpool washing machine is leaking` → **refused** (washer is out of scope even though Whirlpool is a known brand).
+**Order status demo credentials** (both required):
+- Email: `demo@example.com` · Order: `PS-123456` → Shipped, refrigerator part
+- Email: `demo@example.com` · Order: `PS-789012` → Processing, dishwasher part
+- Email: `demo@example.com` · Order: `PS-555000` → Declined (out-of-scope: lawn mower part)
+
+Guardrail tests:
+- `My Whirlpool washing machine is leaking` → **refused** (washer is out of scope even though Whirlpool is a known brand)
+- `My fridge is making a loud noise` → **allowed** ("fridge" is recognized as a refrigerator alias)
 
 ---
 
@@ -171,6 +179,23 @@ prompt is generated from this list automatically.
 
 ---
 
+## Catalog
+
+247 real parts scraped from PartSelect (106 refrigerator, 141 dishwasher) across
+40+ brands including Whirlpool, GE, Frigidaire, Samsung, LG, Bosch, KitchenAid,
+Kenmore, and more. Each part includes price, stock status, compatible models,
+brand list, symptoms fixed, and install difficulty/time.
+
+The scraper lives in `scraper/scraper.py` (Playwright, headless Chrome) and can
+be re-run to refresh the catalog:
+
+```bash
+cd backend && source .venv/bin/activate
+python ../scraper/scraper.py --max 300
+```
+
+---
+
 ## Project structure
 
 ```
@@ -187,14 +212,14 @@ backend/
     lookup_part.py   Look up by PS / manufacturer number
     search_parts.py  Keyword / symptom search
     check_compatibility.py  Deterministic model-number lookup (never RAG)
-    install_guide.py Step-by-step install from catalog
+    install_guide.py Step-by-step install from catalog; links to PartSelect page
     troubleshoot.py  RAG over repair_guides.json
-    get_order_status.py  Order lookup (demo data)
+    get_order_status.py  Order lookup (demo data; requires email + order number)
     add_to_cart.py   Cart action (demo)
   data/
     provider.py      DataProvider interface + JSONDataProvider singleton
-    catalog.json     17 parts (9 refrigerator, 8 dishwasher)
-    repair_guides.json  8 repair guides — RAG corpus
+    catalog.json     247 parts scraped from PartSelect
+    repair_guides.json  RAG corpus
   rag/
     store.py         In-memory cosine-similarity VectorStore
                      (interface matches pgvector for production swap)
@@ -203,16 +228,16 @@ frontend/
   src/
     api/client.js    sendMessage() + streamMessage() (SSE fetch)
     components/
-      ChatWindow.jsx   Input, streaming state, follow-up chips
+      ChatWindow.jsx   Input, streaming state, welcome screen, follow-up chips
       MessageList.jsx  Renders text bubbles + dispatches to card registry
       cards/
-        index.js       Component registry  {type → Component}
+        index.js              Component registry  {type → Component}
         ProductCard.jsx
         CompatibilityBadge.jsx
-        InstallSteps.jsx
-        OrderCard.jsx
+        InstallSteps.jsx      Shows steps or links to PartSelect page
+        OrderCard.jsx         Shows demo disclaimer when data is simulated
         CartConfirmation.jsx
         TroubleshootResult.jsx
 scraper/
-  README.md          Documents the production ingestion path (not run in demo)
+  scraper.py         Playwright scraper — crawls PartSelect category pages
 ```
