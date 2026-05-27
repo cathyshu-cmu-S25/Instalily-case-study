@@ -118,5 +118,180 @@
       "If the element has continuity but still produces no heat, the control board may not be activating it."
     ],
     "likely_parts": ["heating element", "control board"]
+  },
+  {
+    "id": "rg-fridge-will-not-start",
+    "appliance": "Refrigerator",
+    "symptom": "refrigerator will not start",
+    "brands": ["Whirlpool", "GE", "Frigidaire", "Samsung", "LG", "Kenmore"],
+    "diagnosis_steps": [
+      "Check that the refrigerator is plugged in and the outlet has power — test with another device.",
+      "Check the circuit breaker or fuse for the refrigerator's circuit; reset or replace if tripped.",
+      "Listen for a clicking sound from the back — repeated clicking usually means a faulty compressor overload relay.",
+      "Remove the overload relay from the compressor and shake it; a rattling sound confirms it has failed — replace it.",
+      "Test the temperature control thermostat by turning it from the lowest to highest setting; if you don't hear a click, the thermostat may be defective.",
+      "If the compressor hums but doesn't run, the start capacitor may need replacement.",
+      "If none of the above applies, the main control board may have failed."
+    ],
+    "likely_parts": ["compressor overload relay", "temperature control thermostat", "main control board"]
+  },
+  {
+    "id": "rg-fridge-not-dispensing-water",
+    "appliance": "Refrigerator",
+    "symptom": "refrigerator not dispensing water",
+    "brands": ["Whirlpool", "GE", "Frigidaire", "Samsung", "LG", "KitchenAid"],
+    "diagnosis_steps": [
+      "Confirm the water supply line behind the refrigerator is connected and the shutoff valve is open.",
+      "Replace the water filter if it is older than 6 months — a clogged filter is the most common cause.",
+      "Check that the dispenser lock is not enabled — hold the lock button for 3 seconds to toggle it.",
+      "Press the dispenser paddle firmly; if there is no sound at all, the dispenser switch or actuator may be faulty.",
+      "Test the water inlet valve for continuity with a multimeter — replace it if it reads open.",
+      "If water pressure from the house supply is below 20 psi, the inlet valve will not open."
+    ],
+    "likely_parts": ["water filter", "water inlet valve", "dispenser actuator"]
+  },
+  {
+    "id": "rg-fridge-door-sweating",
+    "appliance": "Refrigerator",
+    "symptom": "refrigerator door sweating",
+    "brands": ["Whirlpool", "GE", "Frigidaire", "Maytag", "Kenmore"],
+    "diagnosis_steps": [
+      "Inspect the door gasket all the way around for tears, stiffness, or sections that have pulled away from the door — replace if damaged.",
+      "Close the door on a piece of paper; if you can pull it out easily, the gasket is not sealing.",
+      "Check the door hinges — a sagging door prevents the gasket from seating evenly; adjust or replace the hinge.",
+      "Ensure the refrigerator is level front-to-back so doors close under their own weight.",
+      "If the gasket is intact and the door seals well, the mullion or anti-sweat heater between the doors may be faulty."
+    ],
+    "likely_parts": ["door gasket", "door hinge", "mullion heater"]
+  },
+  {
+    "id": "rg-fridge-light-not-working",
+    "appliance": "Refrigerator",
+    "symptom": "refrigerator light not working",
+    "brands": ["Whirlpool", "GE", "Frigidaire", "Samsung", "LG"],
+    "diagnosis_steps": [
+      "Open the door and press the door switch manually — if the light turns on, the switch itself is stuck or broken.",
+      "Check that the light bulb is not burned out; replace it with the correct wattage specified in the owner's manual.",
+      "Test the door switch for continuity with a multimeter — replace it if it reads open when pressed.",
+      "If the light uses an LED module rather than a bulb, the module itself may need replacement.",
+      "If none of the above resolves the issue, the main control board may not be supplying power to the light circuit."
+    ],
+    "likely_parts": ["door switch", "light bulb", "LED light module"]
+  },
+  {
+    "id": "rg-fridge-too-cold",
+    "appliance": "Refrigerator",
+    "symptom": "refrigerator too cold",
+    "brands": ["Whirlpool", "GE", "Frigidaire", "Kenmore", "Maytag"],
+    "diagnosis_steps": [
+      "Check the temperature setting — the fresh food section should be around 37°F; adjust the thermostat if it is set too low.",
+      "Test the temperature control thermostat by turning it to the warmest setting; if the compressor doesn't stop running, the thermostat may be stuck.",
+      "Inspect the thermistor (temperature sensor) — use a multimeter to check its resistance matches the chart in the service manual; replace if out of range.",
+      "Check the damper or air inlet door that controls airflow from the freezer — if stuck open, too much cold air enters the fresh food section.",
+      "If the compressor runs continuously without cycling off, the main control board may be at fault."
+    ],
+    "likely_parts": ["temperature control thermostat", "thermistor", "damper control assembly"]
+  },
+  {
+    "id": "rg-fridge-runs-too-long",
+    "appliance": "Refrigerator",
+    "symptom": "refrigerator runs too long",
+    "brands": ["Whirlpool", "GE", "Frigidaire", "Kenmore"],
+    "diagnosis_steps": [
+      "Check the door gaskets for a tight seal — a leaking gasket lets warm air in constantly, forcing the compressor to run non-stop.",
+      "Make sure the condenser coils (at the back or bottom) are clean — dust buildup makes the compressor work harder and longer.",
+      "Check that the condenser fan is running; a failed fan motor causes the refrigerator to run continuously.",
+      "Inspect the defrost system — if frost builds up on the evaporator, the refrigerator will struggle to cool and run too long. Check the defrost heater and defrost thermostat.",
+      "Verify the refrigerator is not overfilled and has adequate airflow around the contents."
+    ],
+    "likely_parts": ["door gasket", "condenser fan motor", "defrost heater", "defrost thermostat"]
+  },
+  {
+    "id": "rg-fridge-freezer-too-cold",
+    "appliance": "Refrigerator",
+    "symptom": "freezer too cold",
+    "brands": ["Whirlpool", "GE", "Frigidaire", "Kenmore", "Maytag"],
+    "diagnosis_steps": [
+      "Adjust the freezer temperature control — 0°F is the recommended setting; turn it toward a warmer setting.",
+      "Test the temperature control thermostat — if the compressor runs continuously and does not cycle off, the thermostat may be stuck in the closed position.",
+      "Check the thermistor resistance with a multimeter; replace it if the reading is out of spec for the current temperature.",
+      "Inspect the damper between the freezer and fresh food sections — if stuck closed it concentrates all cold air in the freezer.",
+      "If all above check out, the main control board may be sending incorrect signals to the compressor."
+    ],
+    "likely_parts": ["temperature control thermostat", "thermistor", "damper control assembly"]
+  },
+  {
+    "id": "rg-dw-noisy",
+    "appliance": "Dishwasher",
+    "symptom": "dishwasher noisy",
+    "brands": ["Whirlpool", "GE", "Bosch", "Frigidaire", "KitchenAid", "Kenmore"],
+    "diagnosis_steps": [
+      "Identify the type of noise: grinding usually means debris in the pump; thumping or banging often means the spray arm is hitting dishes or a utensil fell through the rack.",
+      "Remove the lower rack and spin the spray arm — if it is blocked or cracked, replace it.",
+      "Check for hard items (broken glass, seeds, bone fragments) in the filter and pump area at the bottom; remove any debris.",
+      "If you hear a loud grinding or humming from below, the wash pump motor bearings may be worn — replace the pump and motor assembly.",
+      "A squealing noise during draining points to a worn drain pump impeller — replace the drain pump.",
+      "Rattling from the door area may mean a loose door spring or hinge — inspect and tighten or replace."
+    ],
+    "likely_parts": ["lower spray arm", "wash pump & motor assembly", "drain pump"]
+  },
+  {
+    "id": "rg-dw-door-latch-failure",
+    "appliance": "Dishwasher",
+    "symptom": "dishwasher door latch failure",
+    "brands": ["Whirlpool", "GE", "Bosch", "Frigidaire", "KitchenAid"],
+    "diagnosis_steps": [
+      "Try closing the door firmly — if it does not latch, inspect the door latch assembly for broken plastic tabs or a worn strike.",
+      "Test the door switch with a multimeter for continuity when the door is closed — no continuity means the switch is faulty.",
+      "Check the door hinges and springs — a sagging door will not align with the latch; adjust or replace the springs.",
+      "Inspect the door gasket; a thick buildup of detergent or food residue can prevent the door from closing flush.",
+      "If the door latches but the dishwasher still won't run, the door switch or wiring to the control board may be the issue."
+    ],
+    "likely_parts": ["door latch assembly", "door switch", "door spring"]
+  },
+  {
+    "id": "rg-dw-not-draining",
+    "appliance": "Dishwasher",
+    "symptom": "dishwasher not draining",
+    "brands": ["Whirlpool", "GE", "Bosch", "Frigidaire", "KitchenAid", "Kenmore"],
+    "diagnosis_steps": [
+      "Check the drain hose for kinks or clogs — straighten the hose and clear any blockage.",
+      "Ensure the drain hose is installed with a high loop or connects to an air gap to prevent backflow.",
+      "Clean the dishwasher filter at the bottom of the tub — a clogged filter is a very common cause of standing water.",
+      "Check the knockout plug in the garbage disposal inlet — if the dishwasher was recently connected to a new disposal, the plug may not have been removed.",
+      "Test the drain pump by starting a drain cycle and listening — if silent, the pump motor may be burned out; replace the drain pump.",
+      "If the pump runs but water does not move, the pump impeller may be broken or jammed with debris."
+    ],
+    "likely_parts": ["drain pump", "drain hose", "dishwasher filter"]
+  },
+  {
+    "id": "rg-dw-will-not-fill-water",
+    "appliance": "Dishwasher",
+    "symptom": "dishwasher will not fill with water",
+    "brands": ["Whirlpool", "GE", "Bosch", "Frigidaire", "KitchenAid"],
+    "diagnosis_steps": [
+      "Confirm the water supply valve under the sink is fully open.",
+      "Check the water inlet valve screen for debris — sediment can clog the screen and restrict flow; clean or replace the valve.",
+      "Test the water inlet valve solenoid for continuity with a multimeter — replace it if it reads open.",
+      "Inspect the float switch at the bottom of the tub — if the float is stuck in the raised position, it signals 'full' and prevents filling; free the float or replace the switch.",
+      "Check the door switch — the dishwasher will not fill unless the door is latched and the switch is closed.",
+      "If the control panel shows an error code, look it up in the service manual; some codes indicate a fill timeout."
+    ],
+    "likely_parts": ["water inlet valve", "float switch", "door switch"]
+  },
+  {
+    "id": "rg-dw-will-not-dispense-detergent",
+    "appliance": "Dishwasher",
+    "symptom": "dishwasher will not dispense detergent",
+    "brands": ["Whirlpool", "GE", "Bosch", "Frigidaire", "KitchenAid", "Kenmore"],
+    "diagnosis_steps": [
+      "Make sure you are using dishwasher-specific detergent and not overfilling the dispenser — overfilling prevents the door from opening.",
+      "Check that the dispenser door is not blocked by a large item in the lower rack.",
+      "Inspect the dispenser door spring and latch — if the spring is broken, the door will not pop open during the wash cycle.",
+      "Test the wax motor (bi-metal actuator) that triggers the dispenser door — if it does not activate, replace it.",
+      "If the dispenser door opens but detergent remains, water may not be reaching the dispenser area — check the spray arms for clogs.",
+      "A faulty timer or control board may not be sending the signal to open the dispenser at the right point in the cycle."
+    ],
+    "likely_parts": ["detergent dispenser", "dispenser actuator", "control board"]
   }
 ]
