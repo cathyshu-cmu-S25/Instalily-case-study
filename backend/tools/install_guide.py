@@ -34,14 +34,26 @@ class InstallGuide(Tool):
         steps = install.get("steps", [])
         steps_text = "\n".join(f"Step {i+1}: {s}" for i, s in enumerate(steps)) if steps else ""
 
-        return ToolResult(
-            text=(
+        if steps_text:
+            text = (
                 f"Installation guide for {part['name']} ({part['ps_number']}):\n"
                 f"Difficulty: {install.get('difficulty', 'Unknown')} | "
                 f"Time: {install.get('time', 'Unknown')} | "
-                f"Tools needed: {tools_needed}"
-                + (f"\n\n{steps_text}" if steps_text else "")
-            ),
+                f"Tools needed: {tools_needed}\n\n"
+                f"{steps_text}"
+            )
+        else:
+            text = (
+                f"Here's what we know about installing the {part['name']} ({part['ps_number']}):\n"
+                f"- Difficulty: {install.get('difficulty', 'Unknown')}\n"
+                f"- Estimated time: {install.get('time', 'Unknown')}\n"
+                f"- Tools needed: {tools_needed}\n\n"
+                f"Full step-by-step instructions and video guides are available on PartSelect. "
+                f"Click the link in the card below to view them."
+            )
+
+        return ToolResult(
+            text=text,
             ui_block={
                 "type": "install_guide",
                 "data": {

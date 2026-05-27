@@ -8,8 +8,8 @@ export default function InstallSteps({ data }) {
   return (
     <div className="card install-card">
       <div className="install-card__header">
-        <p className="install-card__title">Installation Guide</p>
-        <p className="install-card__part">{part.name} · {part.ps_number}</p>
+        <p className="install-card__title">{part.name}</p>
+        <p className="install-card__part">Installation Guide · {part.ps_number}</p>
       </div>
 
       <div className="install-card__meta">
