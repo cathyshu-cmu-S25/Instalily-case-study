@@ -50,7 +50,8 @@ class GetOrderStatus(Tool):
     description = (
         "Look up the status of an existing order. "
         "Requires both the customer's email address AND their order number (e.g. PS-123456). "
-        "Ask for both before calling this tool."
+        "Call this tool as soon as both are present in the conversation. "
+        "If either is missing, ask the customer for it first."
     )
     parameters = {
         "type": "object",
