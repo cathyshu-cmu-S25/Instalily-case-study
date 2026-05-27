@@ -57,19 +57,27 @@ class Troubleshoot(Tool):
 
         guide = guides[0]
         provider = get_provider()
+        app = guide.get("appliance") or appliance
 
-        # Find real catalog parts whose fixes_symptoms match the symptom
-        recommended_parts = provider.find_parts_for_symptom(
-            symptom, guide.get("appliance") or appliance
-        )
-        # Deduplicate by ps_number
+        # Primary: search by likely_parts names from the guide (most semantically accurate)
+        recommended_parts: list[dict] = []
         seen: set[str] = set()
-        unique_parts: list[dict] = []
-        for p in recommended_parts:
-            if p["ps_number"] not in seen:
-                seen.add(p["ps_number"])
-                unique_parts.append(p)
-        recommended_parts = unique_parts[:3]
+        for part_name in guide.get("likely_parts", []):
+            matches = provider.search_parts(part_name, app)
+            for m in matches:
+                if m["ps_number"] not in seen:
+                    seen.add(m["ps_number"])
+                    recommended_parts.append(m)
+                    break
+
+        # Fallback: if guide returned no matches, use fixes_symptoms search
+        if not recommended_parts:
+            for p in provider.find_parts_for_symptom(symptom, app):
+                if p["ps_number"] not in seen:
+                    seen.add(p["ps_number"])
+                    recommended_parts.append(p)
+
+        recommended_parts = recommended_parts[:3]
 
         steps_text = "\n".join(
             f"{i + 1}. {s}" for i, s in enumerate(guide["diagnosis_steps"])

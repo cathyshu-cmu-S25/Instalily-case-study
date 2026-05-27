@@ -50,25 +50,31 @@ class JSONDataProvider(DataProvider):
         return [p for _, p in scored[:5]]
 
     def search_parts(self, query: str, appliance: str | None = None) -> list[dict]:
-        terms = query.lower().split()
+        q = query.lower()
+        terms = q.split()
         scored: list[tuple[int, dict]] = []
 
         for p in self._parts:
             if appliance and p.get("appliance_type", "").lower() != appliance.lower():
                 continue
+            name = p.get("name", "").lower()
             haystack = " ".join([
-                p.get("name", ""),
+                name,
                 " ".join(p.get("brands", [])),
                 " ".join(p.get("fixes_symptoms", [])),
                 p.get("appliance_type", ""),
                 p.get("ps_number", ""),
                 p.get("manufacturer_number", ""),
             ]).lower()
-            score = sum(1 for t in terms if t in haystack)
+            # Phrase match on part name scores highest
+            if q in name:
+                score = len(terms) * 3
+            else:
+                score = sum(1 for t in terms if t in haystack)
             if score > 0:
                 scored.append((score, p))
 
-        scored.sort(key=lambda x: x[0], reverse=True)
+        scored.sort(key=lambda x: (-x[0], -x[1].get("review_count", 0)))
         return [p for _, p in scored[:5]]
 
 
