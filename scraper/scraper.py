@@ -253,17 +253,26 @@ def parse_part(html: str, url: str, appliance_type: str) -> dict | None:
 
 # ── main ──────────────────────────────────────────────────────────────────────
 
+SEARCH_URL_PATTERN = re.compile(r"search/\?searchterm=PS\d+$")
+
+
 async def main(max_parts: int):
     seen_ps: set[str] = set()
     results: list[dict] = []
+    # Index for fast lookup when patching URLs
+    results_index: dict[str, int] = {}
 
-    # Keep existing catalog entries (don't wipe non-demo parts)
+    # Keep existing catalog entries; flag those with placeholder search URLs for re-scrape
+    needs_url: list[tuple[str, str]] = []  # (ps_number, appliance_type)
     if OUT.exists():
         existing = json.loads(OUT.read_text())
         for part in existing:
             seen_ps.add(part["ps_number"])
+            results_index[part["ps_number"]] = len(results)
             results.append(part)
-        print(f"Loaded {len(results)} existing parts from catalog.")
+            if SEARCH_URL_PATTERN.search(part.get("url", "")):
+                needs_url.append((part["ps_number"], part["appliance_type"]))
+        print(f"Loaded {len(results)} existing parts ({len(needs_url)} need real URL).")
 
     async with async_playwright() as pw:
         browser, ctx = await new_browser(pw)
@@ -285,7 +294,7 @@ async def main(max_parts: int):
         print(f"\nTotal new parts to scrape: {len(all_urls)} (cap: {max_parts})")
         all_urls = all_urls[:max_parts]
 
-        # 2. Scrape each part page
+        # 2. Scrape each new part page
         for i, (url, appliance) in enumerate(all_urls):
             ps = re.search(r"PS\d+", url).group()
             if ps in seen_ps:
@@ -305,6 +314,36 @@ async def main(max_parts: int):
             except Exception as e:
                 print(f"  ✗ error: {e}")
             await asyncio.sleep(1.5)
+
+        # 3. Patch real URLs for parts that only have search placeholder URLs
+        if needs_url:
+            print(f"\nPatching URLs for {len(needs_url)} existing parts ...")
+            for i, (ps, appliance) in enumerate(needs_url):
+                search_url = f"https://www.partselect.com/search/?searchterm={ps}"
+                print(f"[{i+1}/{len(needs_url)}] {ps} ...")
+                try:
+                    await page.goto(search_url, wait_until="domcontentloaded", timeout=30000)
+                    await page.wait_for_timeout(1500)
+                    # The search page should redirect or show the part — grab the final URL
+                    final_url = page.url.split("?")[0].split("#")[0]
+                    if ps in final_url and "search" not in final_url:
+                        idx = results_index[ps]
+                        results[idx]["url"] = final_url
+                        print(f"  ✓ {final_url}")
+                    else:
+                        # Try clicking the first result link
+                        link = page.locator(f"a[href*='{ps}']").first
+                        href = await link.get_attribute("href")
+                        if href:
+                            real = ("https://www.partselect.com" + href if href.startswith("/") else href).split("?")[0]
+                            idx = results_index[ps]
+                            results[idx]["url"] = real
+                            print(f"  ✓ {real}")
+                        else:
+                            print(f"  ✗ could not find real URL")
+                except Exception as e:
+                    print(f"  ✗ {e}")
+                await asyncio.sleep(1.5)
 
         await browser.close()
 
