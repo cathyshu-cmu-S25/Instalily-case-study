@@ -2,6 +2,16 @@ import { useState, useRef, useEffect } from "react";
 import MessageList from "./MessageList";
 import { streamMessage } from "../api/client";
 
+const WELCOME_MSG = {
+  role: "assistant",
+  content: "Hi! I can help you with refrigerator and dishwasher parts. What can I help you with today?",
+  ui_blocks: [],
+  streaming: false,
+  isWelcome: true,
+};
+
+const WELCOME_OPTIONS = ["Look up a part", "Check compatibility", "Troubleshoot a symptom", "Check order status"];
+
 const CHIPS = {
   product_card: ["How do I install this?", "Is this compatible with my model?", "Add to cart"],
   compatibility_result: ["Show me the installation guide", "What other parts fit my model?"],
@@ -18,7 +28,7 @@ function getChips(lastMsg) {
 }
 
 export default function ChatWindow() {
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState([WELCOME_MSG]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -36,7 +46,9 @@ export default function ChatWindow() {
     setError(null);
     setLoading(true);
 
-    const history = messages.map((m) => ({ role: m.role, content: m.content }));
+    const history = messages
+      .filter((m) => !m.isWelcome)
+      .map((m) => ({ role: m.role, content: m.content, ui_blocks: m.ui_blocks ?? [] }));
     const withUser = [...messages, { role: "user", content: text }];
 
     setMessages([
@@ -111,24 +123,16 @@ export default function ChatWindow() {
       </header>
 
       <div className="chat-body">
-        {messages.length === 0 && (
-          <div className="chat-welcome">
-            <div className="message message--assistant">
-              <span className="message__label">PartSelect</span>
-              <div className="message__text">
-                Hi! I can help you with refrigerator and dishwasher parts. What can I help you with today?
-              </div>
-            </div>
-            <div className="chat-welcome__options">
-              {["Look up a part", "Check compatibility", "Troubleshoot a symptom", "Check order status"].map((opt) => (
-                <button key={opt} className="welcome-option" onClick={() => handleSend(opt)}>
-                  {opt}
-                </button>
-              ))}
-            </div>
+        <MessageList messages={messages} />
+        {messages.length === 1 && messages[0].isWelcome && !loading && (
+          <div className="chat-welcome__options">
+            {WELCOME_OPTIONS.map((opt) => (
+              <button key={opt} className="welcome-option" onClick={() => handleSend(opt)}>
+                {opt}
+              </button>
+            ))}
           </div>
         )}
-        <MessageList messages={messages} />
         <div ref={bottomRef} />
       </div>
 

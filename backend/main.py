@@ -34,6 +34,7 @@ app.add_middleware(
 class ChatMessage(BaseModel):
     role: str
     content: str
+    ui_blocks: list[dict] = []
 
 
 class ChatRequest(BaseModel):
@@ -60,7 +61,7 @@ async def health():
 
 @app.post("/chat", response_model=ChatResponse)
 async def chat(req: ChatRequest):
-    history = [{"role": m.role, "content": m.content} for m in req.history]
+    history = [{"role": m.role, "content": m.content, "ui_blocks": m.ui_blocks} for m in req.history]
     allowed, refusal = await check_scope(req.message, history)
     if not allowed:
         return ChatResponse(response=refusal)
@@ -70,7 +71,7 @@ async def chat(req: ChatRequest):
 
 @app.post("/chat/stream")
 async def chat_stream(req: ChatRequest):
-    history = [{"role": m.role, "content": m.content} for m in req.history]
+    history = [{"role": m.role, "content": m.content, "ui_blocks": m.ui_blocks} for m in req.history]
 
     allowed, refusal = await check_scope(req.message, history)
     if not allowed:

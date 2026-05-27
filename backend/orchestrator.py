@@ -23,6 +23,7 @@ You help customers with:
 • For compound requests ("look up X, check if it fits my model, and add to cart"), chain all the
   necessary tool calls in sequence — do not ask the user to break it into steps.
 
+
 ━━ Clarify, don't guess ━━
 • If you need a part number but none has been established in the conversation, ask:
   "Which part number are you asking about? (You can find it on the part itself or your receipt.)"
@@ -46,7 +47,14 @@ You help customers with:
 def _build_messages(message: str, history: list[dict]) -> list[dict]:
     msgs = [{"role": "system", "content": _SYSTEM}]
     for h in history:
-        msgs.append({"role": h["role"], "content": h["content"]})
+        content = h["content"]
+        # If this assistant turn already produced tool cards, tell the LLM so it doesn't repeat them
+        if h.get("role") == "assistant":
+            tools_used = [b["_tool"] for b in h.get("ui_blocks", []) if "_tool" in b]
+            if tools_used:
+                note = f"[Tools already called and shown to user this turn: {', '.join(tools_used)}]"
+                content = f"{note}\n{content}" if content else note
+        msgs.append({"role": h["role"], "content": content})
     msgs.append({"role": "user", "content": message})
     return msgs
 
@@ -75,7 +83,18 @@ async def _execute_tool(tc) -> tuple[str, dict | None]:
     if tool is None:
         return f"Error: tool '{fn_name}' is not available.", None
     result: ToolResult = await tool.execute(**fn_args)
-    return result.text, result.ui_block
+    ui_block = result.ui_block
+    if ui_block:
+        ui_block = {**ui_block, "_tool": fn_name}
+    return result.text, ui_block
+
+
+def _dedup_ui_blocks(blocks: list[dict]) -> list[dict]:
+    """Keep only the last block of each type (prevents duplicate cards in one response)."""
+    seen: dict[str, int] = {}
+    for i, b in enumerate(blocks):
+        seen[b["type"]] = i
+    return [blocks[i] for i in sorted(seen.values())]
 
 
 async def run(message: str, history: list[dict]) -> dict:
@@ -95,7 +114,7 @@ async def run(message: str, history: list[dict]) -> dict:
         messages.append(_assistant_turn(msg))
 
         if not msg.tool_calls:
-            return {"response": msg.content or "", "ui_blocks": ui_blocks}
+            return {"response": msg.content or "", "ui_blocks": _dedup_ui_blocks(ui_blocks)}
 
         for tc in msg.tool_calls:
             result_text, ui_block = await _execute_tool(tc)
@@ -103,7 +122,7 @@ async def run(message: str, history: list[dict]) -> dict:
                 ui_blocks.append(ui_block)
             messages.append({"role": "tool", "tool_call_id": tc.id, "content": result_text})
 
-    return {"response": "I'm having trouble completing that request. Please try again.", "ui_blocks": ui_blocks}
+    return {"response": "I'm having trouble completing that request. Please try again.", "ui_blocks": _dedup_ui_blocks(ui_blocks)}
 
 
 async def run_stream(message: str, history: list[dict]) -> AsyncGenerator[dict, None]:
@@ -140,6 +159,7 @@ async def run_stream(message: str, history: list[dict]) -> AsyncGenerator[dict, 
         yield {"type": "done", "ui_blocks": []}
         return
 
+    ui_blocks = _dedup_ui_blocks(ui_blocks)
     stream_kwargs: dict = {"model": ORCHESTRATOR_MODEL, "messages": messages, "stream": True}
     if tools:
         stream_kwargs["tools"] = tools
