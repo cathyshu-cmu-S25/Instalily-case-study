@@ -34,6 +34,9 @@ export default function OrderCard({ data }) {
         {data.tracking_number && (
           <p>🚚 {data.carrier}: {data.tracking_number}</p>
         )}
+        {data.demo && (
+          <p className="order-card__demo-note">⚠️ Demo only — this is simulated order data.</p>
+        )}
       </div>
     </div>
   );
