@@ -63,8 +63,14 @@ class Troubleshoot(Tool):
         recommended_parts: list[dict] = []
         seen: set[str] = set()
         for part_name in guide.get("likely_parts", []):
+            terms = [t for t in part_name.lower().split() if len(t) > 1]
             matches = provider.search_parts(part_name, app)
             for m in matches:
+                # Require at least half the meaningful query terms to match as whole words
+                name_words = set(m["name"].lower().split())
+                match_count = sum(1 for t in terms if t in name_words)
+                if match_count < max(1, len(terms) // 2):
+                    continue
                 if m["ps_number"] not in seen:
                     seen.add(m["ps_number"])
                     recommended_parts.append(m)
