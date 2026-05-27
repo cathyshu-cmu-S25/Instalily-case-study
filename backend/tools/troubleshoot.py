@@ -45,7 +45,7 @@ class Troubleshoot(Tool):
         query_parts.append(symptom)
         query = " ".join(query_parts)
 
-        guides = await query_store(query, top_k=1)
+        guides = await query_store(query, top_k=2)
         if not guides:
             return ToolResult(
                 text=(
@@ -58,12 +58,18 @@ class Troubleshoot(Tool):
         guide = guides[0]
         provider = get_provider()
 
-        # Resolve likely_parts names to catalog entries
-        recommended_parts: list[dict] = []
-        for part_name in guide.get("likely_parts", []):
-            matches = provider.search_parts(part_name, guide.get("appliance"))
-            if matches:
-                recommended_parts.append(matches[0])
+        # Find real catalog parts whose fixes_symptoms match the symptom
+        recommended_parts = provider.find_parts_for_symptom(
+            symptom, guide.get("appliance") or appliance
+        )
+        # Deduplicate by ps_number
+        seen: set[str] = set()
+        unique_parts: list[dict] = []
+        for p in recommended_parts:
+            if p["ps_number"] not in seen:
+                seen.add(p["ps_number"])
+                unique_parts.append(p)
+        recommended_parts = unique_parts[:3]
 
         steps_text = "\n".join(
             f"{i + 1}. {s}" for i, s in enumerate(guide["diagnosis_steps"])

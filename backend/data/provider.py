@@ -14,6 +14,10 @@ class DataProvider(ABC):
     def search_parts(self, query: str, appliance: str | None = None) -> list[dict]:
         pass
 
+    @abstractmethod
+    def find_parts_for_symptom(self, symptom: str, appliance: str | None = None) -> list[dict]:
+        pass
+
 
 class JSONDataProvider(DataProvider):
     def __init__(self):
@@ -30,6 +34,20 @@ class JSONDataProvider(DataProvider):
 
     def get_part(self, part_id: str) -> dict | None:
         return self._index.get(part_id.strip().upper())
+
+    def find_parts_for_symptom(self, symptom: str, appliance: str | None = None) -> list[dict]:
+        """Return parts whose fixes_symptoms field matches the symptom keywords."""
+        terms = symptom.lower().split()
+        scored: list[tuple[int, dict]] = []
+        for p in self._parts:
+            if appliance and p.get("appliance_type", "").lower() != appliance.lower():
+                continue
+            symptom_text = " ".join(p.get("fixes_symptoms", [])).lower()
+            score = sum(1 for t in terms if t in symptom_text)
+            if score > 0:
+                scored.append((score, p))
+        scored.sort(key=lambda x: (-x[0], -x[1].get("review_count", 0)))
+        return [p for _, p in scored[:5]]
 
     def search_parts(self, query: str, appliance: str | None = None) -> list[dict]:
         terms = query.lower().split()
