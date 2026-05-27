@@ -112,9 +112,20 @@ export default function ChatWindow() {
 
       <div className="chat-body">
         {messages.length === 0 && (
-          <div className="chat-empty">
-            <p>Ask me about refrigerator or dishwasher parts.</p>
-            <p className="chat-empty__hint">Part lookup · Compatibility · Installation · Troubleshooting</p>
+          <div className="chat-welcome">
+            <div className="message message--assistant">
+              <span className="message__label">PartSelect</span>
+              <div className="message__text">
+                Hi! I can help you with refrigerator and dishwasher parts. What can I help you with today?
+              </div>
+            </div>
+            <div className="chat-welcome__options">
+              {["Look up a part", "Check compatibility", "Troubleshoot a symptom", "Check order status"].map((opt) => (
+                <button key={opt} className="welcome-option" onClick={() => handleSend(opt)}>
+                  {opt}
+                </button>
+              ))}
+            </div>
           </div>
         )}
         <MessageList messages={messages} />

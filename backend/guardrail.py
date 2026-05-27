@@ -48,11 +48,12 @@ async def check_scope(message: str, history: list[dict]) -> tuple[bool, str]:
     if not message.strip():
         return False, "Please type a message and I'll be happy to help!"
 
-    # Build context: last 3 turns (truncated to avoid token waste)
+    # Build context: last 3 user turns only (skip assistant messages to avoid
+    # refusal text confusing the guardrail into thinking the topic is out of scope)
+    user_turns = [t for t in history if t["role"] == "user"]
     context = []
-    for turn in history[-3:]:
-        content = turn["content"][:300]
-        context.append({"role": turn["role"], "content": content})
+    for turn in user_turns[-3:]:
+        context.append({"role": "user", "content": turn["content"][:300]})
 
     resp = await client.chat.completions.create(
         model=GUARDRAIL_MODEL,

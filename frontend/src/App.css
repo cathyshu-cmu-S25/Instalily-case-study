@@ -239,6 +239,35 @@ body {
 }
 @keyframes blink { 50% { opacity: 0; } }
 
+/* ── Welcome screen ── */
+.chat-welcome {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.chat-welcome__options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-left: 4px;
+}
+.welcome-option {
+  text-align: left;
+  padding: 10px 16px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 0.9rem;
+  color: var(--text);
+  cursor: pointer;
+  font-family: inherit;
+  transition: border-color 0.15s, background 0.15s;
+}
+.welcome-option:hover {
+  border-color: var(--navy);
+  background: #f0f4ff;
+}
+
 /* ── Follow-up chips ── */
 .chat-chips {
   display: flex;
