@@ -36,7 +36,7 @@ Tool Registry  ──►  lookup_part · search_parts · check_compatibility
  ▼
 Data / RAG layer
  │  catalog.json (247 parts, scraped from PartSelect)
- │  repair_guides.json (RAG corpus, text-embedding-3-small)
+ │  repair_guides.json (20 guides covering all PartSelect symptom pages, text-embedding-3-small)
  ▼
 Response  →  { text, ui_blocks[] }
  │
@@ -219,7 +219,7 @@ backend/
   data/
     provider.py      DataProvider interface + JSONDataProvider singleton
     catalog.json     247 parts scraped from PartSelect
-    repair_guides.json  RAG corpus
+    repair_guides.json  20 repair guides — full coverage of all PartSelect symptom pages
   rag/
     store.py         In-memory cosine-similarity VectorStore
                      (interface matches pgvector for production swap)
