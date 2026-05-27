@@ -1,6 +1,6 @@
 import ProductCard from "./ProductCard";
 
-export default function TroubleshootResult({ data }) {
+export default function TroubleshootResult({ data, onSend }) {
   const { symptom, guide, recommended_parts = [] } = data;
 
   return (
@@ -23,7 +23,17 @@ export default function TroubleshootResult({ data }) {
           <p className="troubleshoot-card__parts-label">Likely replacement parts:</p>
           <div className="troubleshoot-card__parts-list">
             {recommended_parts.map((part) => (
-              <ProductCard key={part.ps_number} data={part} />
+              <div key={part.ps_number} className="troubleshoot-card__part-item">
+                <ProductCard data={part} />
+                {onSend && (
+                  <button
+                    className="troubleshoot-card__add-btn"
+                    onClick={() => onSend(`Add ${part.ps_number} to cart`)}
+                  >
+                    + Add to cart
+                  </button>
+                )}
+              </div>
             ))}
           </div>
         </div>

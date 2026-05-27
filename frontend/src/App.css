@@ -527,3 +527,24 @@ a.product-card--link:hover {
   flex-direction: column;
   gap: 8px;
 }
+.troubleshoot-card__part-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.troubleshoot-card__add-btn {
+  align-self: flex-start;
+  margin-top: 4px;
+  padding: 5px 12px;
+  background: var(--navy);
+  color: var(--white);
+  border: none;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s;
+}
+.troubleshoot-card__add-btn:hover {
+  background: #1a2e5a;
+}

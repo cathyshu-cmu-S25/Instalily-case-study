@@ -1,7 +1,7 @@
 import ReactMarkdown from "react-markdown";
 import CARD_REGISTRY from "./cards/index";
 
-export default function MessageList({ messages }) {
+export default function MessageList({ messages, onSend }) {
   return (
     <div className="message-list">
       {messages.map((msg, i) => (
@@ -24,7 +24,7 @@ export default function MessageList({ messages }) {
           {/* UI cards — all rendered after streaming completes */}
           {!msg.streaming && msg.ui_blocks?.map((block, j) => {
             const Card = CARD_REGISTRY[block.type];
-            return Card ? <Card key={j} data={block.data} /> : null;
+            return Card ? <Card key={j} data={block.data} onSend={onSend} /> : null;
           })}
         </div>
       ))}

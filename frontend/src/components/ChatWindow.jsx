@@ -23,7 +23,7 @@ const CHIPS = {
   product_card: ["How do I install this?", "Is this compatible with my model?", "Add to cart"],
   compatibility_result: ["Show me the installation guide", "What other parts fit my model?"],
   install_guide: ["Add this part to cart", "Check compatibility with my model"],
-  troubleshoot_result: ["How do I install the recommended part?", "Add recommended parts to cart"],
+  troubleshoot_result: ["How do I install the recommended part?"],
   order_card: ["I need to return an item"],
   cart_confirmation: ["Check order status", "What else do I need?"],
 };
@@ -138,7 +138,7 @@ export default function ChatWindow() {
       </header>
 
       <div className="chat-body">
-        <MessageList messages={messages} />
+        <MessageList messages={messages} onSend={handleSend} />
         {messages.length === 1 && messages[0].isWelcome && !loading && (
           <div className="chat-welcome__options">
             {WELCOME_OPTIONS.map((opt) => (
