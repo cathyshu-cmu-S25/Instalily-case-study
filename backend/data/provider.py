@@ -36,14 +36,18 @@ class JSONDataProvider(DataProvider):
         return self._index.get(part_id.strip().upper())
 
     def find_parts_for_symptom(self, symptom: str, appliance: str | None = None) -> list[dict]:
-        """Return parts whose fixes_symptoms field matches the symptom keywords."""
-        terms = symptom.lower().split()
+        """Return parts whose fixes_symptoms contain the symptom phrase."""
+        q = symptom.lower()
         scored: list[tuple[int, dict]] = []
         for p in self._parts:
             if appliance and p.get("appliance_type", "").lower() != appliance.lower():
                 continue
-            symptom_text = " ".join(p.get("fixes_symptoms", [])).lower()
-            score = sum(1 for t in terms if t in symptom_text)
+            symptoms = [s.lower() for s in p.get("fixes_symptoms", [])]
+            # Phrase match scores highest; partial match as fallback
+            if any(q in s for s in symptoms):
+                score = 3
+            else:
+                score = sum(1 for s in symptoms if any(w in s for w in q.split() if len(w) > 3))
             if score > 0:
                 scored.append((score, p))
         scored.sort(key=lambda x: (-x[0], -x[1].get("review_count", 0)))

@@ -69,14 +69,14 @@ class Troubleshoot(Tool):
                 # Require at least half the meaningful query terms to match as whole words
                 name_words = set(m["name"].lower().split())
                 match_count = sum(1 for t in terms if t in name_words)
-                if match_count < max(1, len(terms) // 2):
+                if match_count < max(1, (len(terms) + 1) // 2):
                     continue
                 if m["ps_number"] not in seen:
                     seen.add(m["ps_number"])
                     recommended_parts.append(m)
                     break
 
-        # Fallback: if guide returned no matches, use fixes_symptoms search
+        # Fallback: if likely_parts search returned nothing, match by symptom phrase
         if not recommended_parts:
             for p in provider.find_parts_for_symptom(symptom, app):
                 if p["ps_number"] not in seen:
