@@ -5,6 +5,7 @@ from pydantic import BaseModel
 class ToolResult(BaseModel):
     text: str
     ui_block: dict | None = None
+    ui_blocks: list[dict] = []  # for tools that return multiple cards
 
 
 class Tool(ABC):

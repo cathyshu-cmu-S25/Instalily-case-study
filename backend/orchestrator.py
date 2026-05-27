@@ -83,18 +83,28 @@ async def _execute_tool(tc) -> tuple[str, dict | None]:
     if tool is None:
         return f"Error: tool '{fn_name}' is not available.", None
     result: ToolResult = await tool.execute(**fn_args)
-    ui_block = result.ui_block
-    if ui_block:
-        ui_block = {**ui_block, "_tool": fn_name}
-    return result.text, ui_block
+    # Support both single ui_block and multi-block ui_blocks
+    blocks = []
+    if result.ui_blocks:
+        blocks = [{**b, "_tool": fn_name} for b in result.ui_blocks]
+    elif result.ui_block:
+        blocks = [{**result.ui_block, "_tool": fn_name}]
+    return result.text, blocks
 
 
 def _dedup_ui_blocks(blocks: list[dict]) -> list[dict]:
-    """Keep only the last block of each type (prevents duplicate cards in one response)."""
-    seen: dict[str, int] = {}
-    for i, b in enumerate(blocks):
-        seen[b["type"]] = i
-    return [blocks[i] for i in sorted(seen.values())]
+    """
+    Remove exact-duplicate tool calls (same type + same ps_number from same tool).
+    Multiple product_cards from a single search_parts call are intentional and kept.
+    """
+    seen: set[tuple] = set()
+    result = []
+    for b in blocks:
+        key = (b["type"], b.get("_tool"), b.get("data", {}).get("ps_number"))
+        if key not in seen:
+            seen.add(key)
+            result.append(b)
+    return result
 
 
 async def run(message: str, history: list[dict]) -> dict:
@@ -117,9 +127,8 @@ async def run(message: str, history: list[dict]) -> dict:
             return {"response": msg.content or "", "ui_blocks": _dedup_ui_blocks(ui_blocks)}
 
         for tc in msg.tool_calls:
-            result_text, ui_block = await _execute_tool(tc)
-            if ui_block:
-                ui_blocks.append(ui_block)
+            result_text, blocks = await _execute_tool(tc)
+            ui_blocks.extend(blocks)
             messages.append({"role": "tool", "tool_call_id": tc.id, "content": result_text})
 
     return {"response": "I'm having trouble completing that request. Please try again.", "ui_blocks": _dedup_ui_blocks(ui_blocks)}
@@ -150,9 +159,8 @@ async def run_stream(message: str, history: list[dict]) -> AsyncGenerator[dict, 
 
         messages.append(_assistant_turn(msg))
         for tc in msg.tool_calls:
-            result_text, ui_block = await _execute_tool(tc)
-            if ui_block:
-                ui_blocks.append(ui_block)
+            result_text, blocks = await _execute_tool(tc)
+            ui_blocks.extend(blocks)
             messages.append({"role": "tool", "tool_call_id": tc.id, "content": result_text})
     else:
         yield {"type": "text_delta", "content": "I'm having trouble completing that request. Please try again."}

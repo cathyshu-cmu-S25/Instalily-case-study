@@ -17,6 +17,7 @@ ALLOWED if the message is:
 - A social nicety or acknowledgment: hello, hi, thanks, thank you, yes, no, ok, sure, great, got it, goodbye
 - A short follow-up or clarifying reply that continues an in-scope appliance-parts conversation
 - Any message providing an order number (format PS-XXXXXX) or email address as part of an order status check — always ALLOWED regardless of email content
+- A short navigation or intent phrase from the assistant UI, such as: "look up a part", "find parts for my model", "check compatibility", "get installation help", "troubleshoot a symptom", "check order status" — these are always ALLOWED
 
 REFUSED if the message is:
 - About any other appliance (washers, dryers, ovens, stoves, microwaves, AC units, etc.) — even if the brand is one we carry

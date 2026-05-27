@@ -62,24 +62,27 @@ class JSONDataProvider(DataProvider):
             if appliance and p.get("appliance_type", "").lower() != appliance.lower():
                 continue
             name = p.get("name", "").lower()
-            haystack = " ".join([
-                name,
-                " ".join(p.get("brands", [])),
-                " ".join(p.get("fixes_symptoms", [])),
-                p.get("appliance_type", ""),
-                p.get("ps_number", ""),
-                p.get("manufacturer_number", ""),
-            ]).lower()
-            # Phrase match on part name scores highest
-            if q in name:
+            # Model number exact match scores highest — for "find parts for my model" queries
+            compatible_models_upper = [m.upper() for m in p.get("compatible_models", [])]
+            if q.upper() in compatible_models_upper:
+                score = len(terms) * 5
+            elif q in name:
                 score = len(terms) * 3
             else:
+                haystack = " ".join([
+                    name,
+                    " ".join(p.get("brands", [])),
+                    " ".join(p.get("fixes_symptoms", [])),
+                    p.get("appliance_type", ""),
+                    p.get("ps_number", ""),
+                    p.get("manufacturer_number", ""),
+                ]).lower()
                 score = sum(1 for t in terms if t in haystack)
             if score > 0:
                 scored.append((score, p))
 
         scored.sort(key=lambda x: (-x[0], -x[1].get("review_count", 0)))
-        return [p for _, p in scored[:5]]
+        return [p for _, p in scored[:12]]
 
 
 # Lazy singleton — loaded on first use

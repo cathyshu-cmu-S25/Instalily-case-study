@@ -246,8 +246,8 @@ body {
   gap: 12px;
 }
 .chat-welcome__options {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 8px;
   padding-left: 4px;
 }
@@ -329,6 +329,16 @@ body {
 }
 
 /* ── ProductCard ── */
+a.product-card--link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+a.product-card--link:hover {
+  border-color: var(--navy);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+}
 .product-card__header {
   display: flex;
   justify-content: space-between;

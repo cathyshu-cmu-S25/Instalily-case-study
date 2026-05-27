@@ -10,7 +10,14 @@ const WELCOME_MSG = {
   isWelcome: true,
 };
 
-const WELCOME_OPTIONS = ["Look up a part", "Check compatibility", "Troubleshoot a symptom", "Check order status"];
+const WELCOME_OPTIONS = [
+  "Look up a part",
+  "Find parts for my model",
+  "Check compatibility",
+  "Get installation help",
+  "Troubleshoot a symptom",
+  "Check order status",
+];
 
 const CHIPS = {
   product_card: ["How do I install this?", "Is this compatible with my model?", "Add to cart"],
@@ -24,7 +31,15 @@ const CHIPS = {
 function getChips(lastMsg) {
   if (!lastMsg || lastMsg.role !== "assistant" || lastMsg.streaming) return [];
   const lastBlock = lastMsg.ui_blocks?.[lastMsg.ui_blocks.length - 1];
-  return CHIPS[lastBlock?.type] || [];
+  const chips = CHIPS[lastBlock?.type] || [];
+  const ps = lastBlock?.data?.part?.ps_number ?? lastBlock?.data?.ps_number;
+  if (!ps) return chips;
+  return chips.map((c) => {
+    if (c === "Add to cart" || c === "Add this part to cart") return `Add ${ps} to cart`;
+    if (c === "How do I install this?") return `How do I install ${ps}?`;
+    if (c === "Is this compatible with my model?") return `Is ${ps} compatible with my model?`;
+    return c;
+  });
 }
 
 export default function ChatWindow() {

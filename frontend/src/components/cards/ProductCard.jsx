@@ -1,9 +1,13 @@
 export default function ProductCard({ data }) {
   const stock = data.in_stock;
   const stars = Math.round(data.rating || 0);
+  const Wrapper = data.url ? "a" : "div";
+  const wrapperProps = data.url
+    ? { href: data.url, target: "_blank", rel: "noreferrer", className: "card product-card product-card--link" }
+    : { className: "card product-card" };
 
   return (
-    <div className="card product-card">
+    <Wrapper {...wrapperProps}>
       <div className="product-card__header">
         <div>
           <p className="product-card__name">{data.name}</p>
@@ -38,6 +42,6 @@ export default function ProductCard({ data }) {
           </span>
         </div>
       )}
-    </div>
+    </Wrapper>
   );
 }

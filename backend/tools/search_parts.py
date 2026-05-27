@@ -7,15 +7,15 @@ from tools.registry import register
 class SearchParts(Tool):
     name = "search_parts"
     description = (
-        "Search for refrigerator or dishwasher parts by symptom, part description, or keyword. "
-        "Use this when the customer describes a problem or uses a general term instead of a part number."
+        "Search for refrigerator or dishwasher parts by symptom, part description, keyword, or appliance model number. "
+        "Use this when the customer describes a problem, uses a general term, or provides a model number and wants to see compatible parts."
     )
     parameters = {
         "type": "object",
         "properties": {
             "query": {
                 "type": "string",
-                "description": "Search term, symptom, or part description (e.g. 'ice maker', 'door shelf bin')",
+                "description": "Search term, symptom, part description, or model number (e.g. 'ice maker', 'door shelf bin', 'WDT780SAEM1')",
             },
             "appliance": {
                 "type": "string",
@@ -38,5 +38,5 @@ class SearchParts(Tool):
         )
         return ToolResult(
             text=f"Found {len(parts)} matching part(s): {summary}",
-            ui_block={"type": "product_card", "data": parts[0]},
+            ui_blocks=[{"type": "product_card", "data": p} for p in parts],
         )
