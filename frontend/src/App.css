@@ -433,6 +433,15 @@ body {
   margin-top: 1px;
 }
 
+.install-card__links { margin-top: 8px; }
+.install-card__ps-link {
+  font-size: 0.85rem;
+  color: var(--navy);
+  font-weight: 600;
+  text-decoration: underline;
+}
+.install-card__ps-link:hover { color: var(--navy-hover); }
+
 /* ── OrderCard ── */
 .order-card__header {
   display: flex;

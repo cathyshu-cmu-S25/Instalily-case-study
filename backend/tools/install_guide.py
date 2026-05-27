@@ -28,26 +28,26 @@ class InstallGuide(Tool):
             return ToolResult(text=f"Part '{part_id}' not found in our catalog.")
 
         install = part.get("install", {})
-        if not install or not install.get("steps"):
-            return ToolResult(
-                text=f"No installation guide is available for {part['name']}. "
-                     "Please contact PartSelect support for assistance."
-            )
+        part_url = part.get("url", "")
 
         tools_needed = ", ".join(install.get("tools", [])) or "None"
-        steps_text = "\n".join(
-            f"Step {i + 1}: {s}" for i, s in enumerate(install["steps"])
-        )
+        steps = install.get("steps", [])
+        steps_text = "\n".join(f"Step {i+1}: {s}" for i, s in enumerate(steps)) if steps else ""
+
         return ToolResult(
             text=(
                 f"Installation guide for {part['name']} ({part['ps_number']}):\n"
                 f"Difficulty: {install.get('difficulty', 'Unknown')} | "
                 f"Time: {install.get('time', 'Unknown')} | "
-                f"Tools needed: {tools_needed}\n\n"
-                f"{steps_text}"
+                f"Tools needed: {tools_needed}"
+                + (f"\n\n{steps_text}" if steps_text else "")
             ),
             ui_block={
                 "type": "install_guide",
-                "data": {"part": part, "install": install},
+                "data": {
+                    "part": part,
+                    "install": install,
+                    "part_url": part_url,
+                },
             },
         )
